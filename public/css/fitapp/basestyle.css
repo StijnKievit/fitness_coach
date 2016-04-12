@@ -349,14 +349,114 @@ h2.sub_title{
     border-top-color: white;
     top: 0;
 }
-/*.more-arrow:hover {
-    background: #e8e8e8;
-    border-color: #cfcfcf;
-}*/
-/*
-.more-arrow:hover:before {
-    border-top-color: #9c9c9c;
+
+
+/*basic form*/
+.basic_form{
+    width: 100%;
+    font-size: 6em;
+    text-align: center;
 }
-.more-arrow:hover:after {
-    border-top-color: #e8e8e8;
-}*/
+
+
+.basic_form label{
+    width: 100%;
+    font-size: .5em;
+    display: block;
+}
+.basic_form label:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+.basic_form label span{
+    text-align: left;
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.basic_form select{
+    width: 100%;
+    font-size: .5em;
+    display: block;
+}
+
+.basic_form input[type="email"],
+.basic_form input[type="password"],
+.basic_form input[type="text"],
+.basic_form input[type="number"],
+.basic_form select,
+.basic_form select option
+{
+    float: left;
+    width: 100%;
+    display: inline;
+    margin-bottom: 20px;
+    font-size: 1em;
+    border: none;
+    border-bottom: 1px solid #ce021b;
+    background-color: white !important;
+}
+
+.basic_form input:-webkit-autofill {
+    background-color: white !important;
+}
+
+.basic_form input[type="submit"]{
+    font-size: .5em;
+}
+
+.form_btn{
+    font-size: 1em;
+
+}
+
+/*traininglistitem*/
+.basic_list{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.basic_list li{
+    display: block;
+    text-align: left;
+    color: #000000;
+    font-size: 2em;
+}
+
+.basic_list li span{
+    font-size: 1.5em;
+    padding: 10px;
+
+
+    display: block;
+}
+
+.basic_list li.active{
+    background-color: #ce021b;
+    color: #FFFFFF;
+    font-weight: bold;
+
+}
+
+.item_selection{
+
+}
+.item_selection a{
+    display: block;
+    padding: 10px;
+    border-top: 1px solid #FFFFFF;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1.5em;
+    font-weight: lighter;
+}
+
+
+
+/*positionering*/
+.left{
+    text-align: left;
+}

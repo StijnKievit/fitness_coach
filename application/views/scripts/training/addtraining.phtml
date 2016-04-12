@@ -1,0 +1,35 @@
+<div class="main_section">
+    <h1 class="main_title">Training aanmaken</h1>
+</div>
+    <form class="basic_form" method="post" >
+        <label>
+            <span>Naam:</span><input type="text" placeholder="" name="name">
+        </label>
+        <label>
+            <span>Type:</span>
+            <select name="type">
+                <option value="kracht">Kracht</option>
+                <option value="cardio">Cardio</option>
+
+            </select>
+        </label>
+        <label>
+            <span>Dagen per week:</span><input type="number" value="1" name="days">
+        </label>
+        <label>
+            <span>Aantal weken:</span><input type="number" value="4" name="weeks">
+        </label>
+        <?php
+        if($this->message != null){
+            ?>
+            <div class="message_warning_box">
+                <?=$this->message ?>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="">
+            <input type="submit" value="Toevoegen" class="main_button form_btn">
+        </div>
+
+    </form>

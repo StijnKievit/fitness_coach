@@ -17,7 +17,9 @@
 <div class="selection_container">
     <ul>
         <li><a href="#" class="formlink">Statistieken</a></li>
-        <li><a href="#" class="formlink">Training toevoegen</a></li>
-        <li><a href="#" class="formlink">Training selecteren</a></li>
+        <li><a href="<?= $this->url(array(  'controller' => 'training',
+                'action' => 'addtraining'))?>" class="formlink">Training toevoegen</a></li>
+        <li><a href="<?= $this->url(array(  'controller' => 'training',
+                'action' => 'selecttraining'))?>" class="formlink">Training selecteren</a></li>
     </ul>
 </div>

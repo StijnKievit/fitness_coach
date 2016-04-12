@@ -1,0 +1,92 @@
+<div class="main_section">
+    <h1 class="main_title">Training selecteren</h1>
+</div>
+<h2 class="sub_title left">Afgerond</h2>
+<ul class="basic_list">
+    <?php
+    $completed_counter = 0;
+    foreach($this->trainingen as $training)
+    {
+        if($training['completed'] == 1):
+            ?>
+
+        <li data-id = "<?=$training['id'] ?>" class="train_item completed_item">
+
+            <span>
+                    <?=$training['name'] ?>
+                </span>
+            <div class="item_selection">
+                <a href="" class="">Statistieken</a>
+                <a href="" class="">Verwijderen</a>
+            </div>
+        </li>
+
+    <?php
+        $completed_counter++;
+        endif;
+    }
+
+    if($completed_counter < 1)
+    {
+        ?>
+        <li><span>Geen trainingen gevonden.</span></li>
+        <?php
+    }
+
+    ?>
+
+</ul>
+<h2 class="sub_title left">Bezig</h2>
+<ul class="basic_list">
+
+    <?php
+
+    $busy_counter = 0;
+    foreach($this->trainingen as $training)
+    {
+        if($training['completed'] == 0):
+            ?>
+
+            <li data-id = "<?=$training['id'] ?>" class="train_item working_item">
+
+                <span>
+                    <?=$training['name'] ?>
+                </span>
+                <div class="item_selection">
+                    <a href="" class="">Selecteren</a>
+                    <a href="" class="">Statistieken</a>
+                    <a href="" class="">Verwijderen</a>
+                </div>
+
+
+            </li>
+            <?php
+            $busy_counter++;
+        endif;
+    }
+
+    if($busy_counter < 1)
+    {
+        ?>
+        <li><span>Geen trainingen gevonden.</span></li>
+    <?php
+    }
+
+    ?>
+
+</ul>
+
+<script>
+
+    var items = $('.item_selection');
+
+    items.hide();
+
+    items.parent().click(function(e){
+        console.log('item is clicked');
+        $(this).toggleClass('active');
+        $(this).children(".item_selection").slideToggle();
+    });
+
+
+</script>

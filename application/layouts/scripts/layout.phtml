@@ -7,13 +7,37 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+    <!--favicons-->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+
     <?php echo $this->headMeta(); ?>
     <?php echo $this->headTitle(); ?>
     <!--css-->
-    <?= $this->headLink()   ->headlink(array('rel' => 'icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico' ,'type' => 'image/ico'))
+    <?= $this->headLink()
+
+        /*->headlink(array('rel' => 'icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico' ,'type' => 'image/ico'))
                             ->headlink(array('rel' => 'shortcut icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico' ,'type' => 'image/x-icon'))
-                            ->headlink(array('rel' => 'shortcut icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico'))
-                            ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/grids.css')
+                            ->headlink(array('rel' => 'shortcut icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico'))*/
+        ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/grids.css')
         ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/basestyle.css')
         ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/dashboard.css')
         ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/login.css')
@@ -38,8 +62,18 @@
                 </span>
                 <a href="<?=$this->url(array(  'controller' => 'auth',
                     'action' => 'logout'), null, true)?>"><img class="icon_logout" src="<?=$this->baseUrl('img/icons/logout_icon.png') ?>" alt="Uitloggen" ></a>
-                <img class="icon_back" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" >
 
+                <?php
+
+                $controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+                $action = Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+                    if($action != 'index'):
+                ?>
+                        <a href="<?=$this->url(array(  'controller' => $controller,
+                            'action' => 'index'), null, true)?>">" <img class="icon_back" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" ></a>
+                <?php
+                    endif;
+                    ?>
             </div>
         <?php endif; ?>
         <div class="app_box">
