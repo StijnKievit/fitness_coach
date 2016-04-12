@@ -1,0 +1,78 @@
+.welcome_message_container{
+    width: 100%;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.welcome_message_container > p{
+    font-size: 4em;
+    color: #8f8f8f;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+.welcome_message_container span{
+    color: #ce021b;
+}
+
+#fitness_lv{
+    padding: 10px;
+    width: 60%;
+    margin: 10px auto 0;
+    font-size: 7em;
+}
+
+/*#fitness_lv:after{
+    content: "Fitheid";
+    text-align: center;
+    font-size: large;
+    color: #8f8f8f;
+}*/
+
+.fitness_lv_title{
+    font-size: 6em;
+    text-align: center;
+    display: block;
+    color: #8f8f8f;
+}
+
+.sec_lv_container{
+    margin-top: 20px;
+}
+
+.sec_lv_container > div{
+    width: 50%;
+    float: left;
+    padding: 0;
+}
+
+#kracht_lv{
+
+    width: 50%;
+    margin: 0 auto;
+    font-size: 3em;
+
+}
+#cardio_lv{
+    width: 50%;
+    margin: 0 auto;
+    font-size: 3em;
+}
+
+.sec_lv_container{
+    width: 100%;
+
+}
+.sec_lv_container:after{
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.sec_title{
+    font-size: 3em;
+    text-align: center;
+    display: block;
+    color: #8f8f8f;
+}

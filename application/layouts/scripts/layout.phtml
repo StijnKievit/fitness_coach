@@ -1,0 +1,76 @@
+<?php echo $this->doctype() ?>
+<html lang="nl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width" />
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <!--css-->
+    <?= $this->headLink()   ->headlink(array('rel' => 'icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico' ,'type' => 'image/ico'))
+                            ->headlink(array('rel' => 'shortcut icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico' ,'type' => 'image/x-icon'))
+                            ->headlink(array('rel' => 'shortcut icon','href' => Zend_Controller_Front::getInstance()->getBaseUrl() . '/favicon.ico'))
+                            ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/grids.css')
+        ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/basestyle.css')
+        ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/dashboard.css')
+        ->appendStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl().'/css/fitapp/login.css')
+
+
+
+    ?>
+    <!--scrips-->
+    <?= $this->headScript()
+        ->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl().'/js/jquery-1.11.3.min.js')
+        ->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl().'/js/jqueryTe/jquery-te-1.4.0.min.js')
+        ->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl().'/js/jquery-ui.min.js')
+        ->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl().'/js/progressbar.min.js')
+    ?>
+</head>
+    <body>
+        <?php if(Auth_AuthChecker::getInstance()->getStatus()) : ?>
+            <div class="header">
+                <img class="icon" src="<?=$this->baseUrl('img/icons/app_logo_white.png') ?>" />
+                <span class="header_title">
+                    Training
+                </span>
+                <a href="<?=$this->url(array(  'controller' => 'auth',
+                    'action' => 'logout'), null, true)?>"><img class="icon_logout" src="<?=$this->baseUrl('img/icons/logout_icon.png') ?>" alt="Uitloggen" ></a>
+                <img class="icon_back" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" >
+
+            </div>
+        <?php endif; ?>
+        <div class="app_box">
+            <?php echo $this->layout()->content ?>
+        </div>
+        <?php if(Auth_AuthChecker::getInstance()->getStatus()) : ?>
+        <div class="menu_buffer">
+
+        </div>
+        <div class="menu_bottom">
+            <div class="menu_bottom_section">
+                <a href="<?= $this->url(array(  'controller' => 'training',
+                    'action' => 'index'))?>" >
+                    <img src="<?= (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'training') ?  $this->baseUrl('img/icons/halter_icon_red.png') :  $this->baseUrl('img/icons/halter_icon.png')?>" class="icon" />
+                </a>
+            </div>
+            <div class="menu_bottom_section">
+                <a href="<?= $this->url(array(  'controller' => 'index',
+                    'action' => 'index'))?>" >
+                    <img src="<?= (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'index') ?  $this->baseUrl('img/icons/home_icon_red.png') :  $this->baseUrl('img/icons/home_icon.png')?>" class="icon" />
+                </a>
+            </div>
+            <div class="menu_bottom_section">
+                <a href="<?= $this->url(array(  'controller' => 'challenge',
+                    'action' => 'index'))?>" >
+                    <img src="<?= (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'challenge') ?  $this->baseUrl('img/icons/challenge_icon_red.png') :  $this->baseUrl('img/icons/challenge_icon.png')?>" class="icon" />
+                </a>
+            </div>
+
+        </div>
+        <?php endif; ?>
+    </body>
+
+</html>

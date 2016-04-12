@@ -1,0 +1,47 @@
+.login_form{
+    width: 100%;
+    font-size: 6em;
+    text-align: center;
+}
+
+
+.login_form label{
+    width: 100%;
+    font-size: .5em;
+    display: block;
+}
+.login_form label:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+.login_form label span{
+    text-align: left;
+    float: left;
+    width: 100%;
+}
+
+.login_form input[type="email"],
+.login_form input[type="password"]
+{
+    float: left;
+    width: 100%;
+    display: inline;
+    margin-bottom: 20px;
+    font-size: 1em;
+    border: none;
+    border-bottom: 1px solid #ce021b;
+    background-color: white !important;
+}
+
+.login_form input:-webkit-autofill {
+    background-color: white !important;
+}
+
+
+.form_btn{
+    font-size: 1em;
+
+}
+
+

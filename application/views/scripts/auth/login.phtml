@@ -1,0 +1,33 @@
+<div class="main_section">
+    <img class="main_logo" src="<?=$this->baseUrl('img/icons/app_logo_red.png') ?>" />
+    <p class="main_title">Welkom, <span>Keep on going!</span></p>
+</div>
+<form class="login_form" method="post">
+    <label>
+        <span>Email:</span><input type="email" placeholder="" name="email">
+    </label>
+    <label>
+        <span>Wachtwoord:</span><input type="password" placeholder="" name="ww">
+    </label>
+    <?php
+    if($this->loginMessage != null){
+        ?>
+        <div class="message_warning_box">
+            <?=$this->loginMessage ?>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="">
+        <input type="submit" value="Inloggen" class="main_button form_btn">
+    </div>
+
+</form>
+<a href="#" class="formlink">Account aanmaken</a>
+
+<a href="#" class="formlink">Wachtwoord vergeten</a>
+
+
+
+
+

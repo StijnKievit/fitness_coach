@@ -1,0 +1,50 @@
+
+<div class="grid-pad grid">
+    <?php
+    if(count($this->skill_list) > 0 || !count($this->main_skill_list) > 0):
+        ?>
+        <div class="message_info_box">
+            <a href="<?=$this->url(array(
+                'controller' => 'skill',
+                'action' => 'index',
+                'id'    => null)) ?>">Terug naar overzicht</a>
+        </div>
+        <?php
+    endif;
+    ?>
+    <h2 class="skill-title"><span>#</span><?=$this->skill_name ?></h2>
+    <div class="col-8">
+        <?php
+        if(count($this->skill_list) > 0):
+
+        foreach($this->skill_list as $skill)
+        {
+        ?>
+            <a class="main-btn skill_overview_item" href="<?=$this->url(array('controller' => 'story', 'action' => 'index', 'id' => $skill->get_story_id())) ?>"><?=$skill->getStoryName() ?></a>
+        <?php
+        }
+
+        endif;
+
+        if(count($this->main_skill_list) > 0):
+
+            foreach($this->main_skill_list as $skill)
+            {
+                ?>
+
+                <a class="main-btn skill_overview_item"
+                   href="<?= $this->url(array('controller' => 'skill', 'action' => 'index', 'id' => $skill['id'] )) ?>"><?=$skill['name'] ?></a>
+
+                <?php
+            }
+        endif;
+        ?>
+    </div>
+    <div class="col-8 m-hide">
+        <div class="gray_box">
+            <img class="responsive " src="<?=$this->baseUrl('img/stairs.png') ?>" alt="Xsarus in de bouw -> skills in de maak"/>
+
+        </div>
+
+    </div>
+</div>

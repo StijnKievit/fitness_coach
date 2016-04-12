@@ -1,0 +1,90 @@
+<div class="welcome_message_container">
+    <p>Welkom, <span><?=Auth_AuthChecker::getInstance()->getUsername()  ?></span>.</p>
+</div>
+<div class="fitness_container">
+    <div id="fitness_lv">
+
+    </div>
+    <span class="fitness_lv_title">Fitheid</span>
+</div>
+
+
+<div class="sec_lv_container">
+    <div>
+        <div id="kracht_lv">
+
+        </div>
+            <span class="sec_title">
+                Kracht
+            </span>
+    </div>
+    <div>
+        <div id="cardio_lv">
+
+        </div>
+            <span class="sec_title">
+                Cardio
+            </span>
+    </div>
+
+</div>
+
+
+<script>
+    var circle = new ProgressBar.Circle('#fitness_lv', {
+        color: '#ce021b',
+        strokeWidth: 1,
+        trailWidth: 1,
+        duration: 1500,
+        text: {
+            /*add level here*/
+            value: '<?=$this->levels['fitheid']['lv']?>'
+        },
+        step: function(state, bar) {
+            /*bar.setText((bar.value() * 100).toFixed(0));*/
+        }
+    });
+
+    circle.animate(<?=$this->levels['fitheid']['fact']?>, function() {
+        /* circle.animate(0);*/
+        console.log('its 80%')
+    })
+
+    var circle2 = new ProgressBar.Circle('#kracht_lv', {
+        color: '#60a0e8',
+        strokeWidth: 1,
+        trailWidth: 1,
+        duration: 1500,
+        text: {
+            /*add level here*/
+            value: '<?=$this->levels['kracht']['lv']?>'
+        },
+        step: function(state, bar) {
+            /*bar.setText((bar.value() * 100).toFixed(0));*/
+        }
+    });
+
+    circle2.animate(<?=$this->levels['kracht']['fact']?>, function() {
+        /* circle.animate(0);*/
+        console.log('its 80%')
+    })
+
+    var circle3 = new ProgressBar.Circle('#cardio_lv', {
+        color: '#47ff47',
+        strokeWidth: 1,
+        trailWidth: 1,
+        duration: 1500,
+        text: {
+
+            value: '<?=$this->levels['cardio']['lv']?>'
+        },
+        step: function(state, bar) {
+            /* bar.setText((bar.value() * 100).toFixed(0));*/
+        }
+    });
+
+    circle3.animate(<?=$this->levels['kracht']['fact']?>, function() {
+        /* circle.animate(0);*/
+        console.log('its 80%')
+    })
+</script>

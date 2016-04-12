@@ -1,0 +1,150 @@
+<h2 class="section-title">Story Toevoegen</h2>
+<div class="grid-pad grid">
+
+    <div class="message_info_box">
+        <a href="<?=$this->url(array( 'controller' => 'story', 'action' => 'admin'), null, true) ?>">Terug naar het overzicht</a>
+    </div>
+    <? if(isset($this->message)): ?>
+        <div class="message_warning_box">
+            <?= (  isset($this->message) ? $this->message : '' )?>
+        </div>
+    <? endif; ?>
+
+    <div class="col-16">
+            <form method="post">
+
+                <label class="col-10">
+                    Titel:<br/>
+                    <input type="text" name="title">
+                </label>
+                <label class="col-10">
+                    Date:<br/>
+                    <input type="date" name="time_stamp">
+                </label>
+                <hr />
+                <label class="col-10">
+                    Introductie:
+                    <textarea name="intro" placeholder="Korte uitleg over wat ik gedaan heb."></textarea>
+                </label>
+                <label class="col-10">
+                    Challenges:
+                    <textarea name="challenges" placeholder="Waar liep ik tegen aan en hoe heb ik dit opgelost?"></textarea>
+                </label>
+                <label class="col-10">
+                    Conclusie:
+                    <textarea name="conclusion" placeholder="Hoe zit dit met mijn competenties, extra informatie, uitbreiding introductie."></textarea>
+                </label>
+                <hr />
+                <div class="col-10">
+                    <div class="comp_checklist_container">
+                        <h3>competenties</h3>
+                        <?
+                        foreach($this->comp_list as $key => $items)
+                        {
+                            ?>
+
+                                <div>
+                                    <p><?=$key ?></p>
+                                    <?
+                                    foreach($items as $item )
+                                    {
+                                        ?>
+                                        <div>
+                                            <input type="checkbox" name="comps[]" value="<?=$item['id'] ?>">
+                                            <span><?=$item['name'] ?></span>
+                                        </div>
+                                        <?
+                                    }
+
+                                    ?>
+
+                                </div>
+
+                            <?
+                        }
+
+                        ?>
+                        <div>
+                            <h3>Overig</h3>
+                            <div>
+                                <input type="checkbox" name="comps[]" value="geen_comp">
+                                <span>Geen competentie</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr />
+                <label class="col-10">
+                    add skills
+                    <input type="hidden" name="skills" id="hidden_skill_list">
+                    <ul class="back_skill_list"></ul>
+                    <input id="skill_input" type="text" name="" placeholder="Skills (use , to seperate)">
+                </label>
+                <hr />
+                <input class="main-btn" type="submit" value="Opslaan">
+        </form>
+    </div>
+    <script type="text/javascript">
+
+        $.get("<?=$this->url(array('controller' => 'ajax', 'action' => 'skill'), null, true) ?>", function(data) {
+            var skill_array = JSON.parse(data);
+            $('#skill_input').autocomplete({source: skill_array});
+
+        });
+
+        $(document).ready(function(){
+            skills();
+        });
+
+        function skills(){
+
+            var inputfield = $('#skill_input');
+            var skillarray = new Array();
+            var hidden_list = $('#hidden_skill_list');
+
+            inputfield.keydown(function(e){
+
+                var container = $('.back_skill_list');
+                var added = false;
+
+
+                console.log(e.keyCode);
+
+                if(e.keyCode == 188 || e.keyCode == 13)
+                {
+                    var input = (inputfield.val());
+
+                    if(skillarray.indexOf(input) < 0)
+                    {
+                        container.append($("<li>").text(input).click(function(e){
+
+                            value = $(this).text();
+                            index = (skillarray.indexOf(value));
+                            skillarray.splice(index, 1);
+                            console.log(skillarray);
+                            hidden_list.val(skillarray.join());
+                            $(this).remove();
+                        }));
+
+                        skillarray.push(input);
+                        hidden_list.val(skillarray.join());
+                    }
+                    added = true;
+                    inputfield.keyup(function(e){
+
+                        if(added)
+                        {
+                            inputfield.val(null);
+                            added = false;
+                            console.log(skillarray);
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+    </script>
+</div>

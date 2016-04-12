@@ -1,0 +1,28 @@
+<h2 class="section-title">Gebruiker registreren</h2>
+<div class="message_info_box">
+    <a href="<?=$this->url(array( 'controller' => 'admin', 'action' => 'index'), null, true) ?>">Terug naar dashboard</a>
+</div>
+<?
+    if(($this->message != null)):
+?>
+        <div class="message_warning_box">
+            <?= $this->message; ?>
+        </div>
+
+<?
+    endif;
+?>
+<div class="grid-pad grid">
+    <div class="col-8">
+        <form method="post" action="<?=$this->url(array( 'controller' => 'register', 'action' => 'index'), null, true) ?>">
+            <ul>
+                <li><label><input type="text" name="voornaam" placeholder="Voornaam"></label></li>
+                <li><label><input type="text" name="achternaam" placeholder="Achternaam"></label></li>
+                <li><label><input type="email" name="email" placeholder="Email"></label></li>
+                <li><label><input type="password" name="pass1" placeholder="Wachtwoord"></label></li>
+                <li><label><input type="password" name="pass2" placeholder="Wachtwoord herhalen"></label></li>
+                <li><input class="submit main-btn" type="submit" name="submit" value="registreren"></li>
+            </ul>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<h2 class="section-title">Story Aanpassen</h2>
+<div class="grid-pad grid">
+
+    <div class="message_info_box">
+        <a href="<?=$this->url(array( 'controller' => 'story', 'action' => 'admin'), null, true) ?>">Terug naar het overzicht</a>
+    </div>
+    <?php if(isset($this->message)): ?>
+        <div class="message_warning_box">
+            <?= (  isset($this->message) ? $this->message : '' )?>
+        </div>
+    <?php endif; ?>
+
+    <div class="col-16">
+        <form method="post">
+
+            <label class="col-10">
+                Titel:<br/>
+                <input type="text" name="title" value="<?=$this->story['content'][0]['title'] ?>">
+            </label>
+            <label class="col-10">
+                Date:<br/>
+                <input type="date" name="time_stamp" value="<?=trim(str_replace('00:00:00', '', $this->story['content'][0]['time_stamp'])) ?>">
+            </label>
+            <hr />
+            <label class="col-10">
+                Introductie:
+            <textarea name="intro" placeholder="Korte uitleg over wat ik gedaan heb.">
+            <?=$this->story['content'][0]['introduction'] ?>
+            </textarea>
+            </label>
+            <label class="col-10">
+                Challenges:
+            <textarea name="challenges" placeholder="Waar liep ik tegen aan en hoe heb ik dit opgelost?">
+            <?=$this->story['content'][0]['challenges'] ?>
+
+            </textarea>
+            </label>
+            <label class="col-10"l>
+                Conclusie:
+            <textarea name="conclusion" placeholder="Hoe zit dit met mijn competenties, extra informatie, uitbreiding introductie.">
+            <?=$this->story['content'][0]['conclusion'] ?>
+
+            </textarea>
+            </label>
+            <hr />
+            <div class="col-10">
+                <div class="comp_checklist_container">
+                    <h3>competenties</h3>
+                    <?php
+                    foreach($this->comp_list as $key => $items)
+                    {
+                        ?>
+
+                        <div>
+                            <p><?=$key ?></p>
+                            <?php
+                            foreach($items as $item )
+                            {
+                                ?>
+                                <div>
+                                    <input type="checkbox" name="comps[]" value="<?=$item['id'] ?>" <?php
+
+                                    foreach($this->story['competenties'] as $storyC)
+                                    {
+                                        echo ($storyC['id'] == $item['id']) ? 'checked' : '';
+                                    }
+
+                                    ?>>
+                                    <span><?=$item['name'] ?></span>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+
+                        <?php
+                    }
+
+                    ?>
+                </div>
+            </div>
+            <hr />
+
+                <label class="col-10">
+                add skills
+
+                    <?php
+
+                    $skill_array = array();
+
+                    foreach($this->story['skills'] as $skill)
+                    {
+                        array_push($skill_array, $skill->get_skill_name());
+                    }
+
+                    ?>
+
+                <input type="hidden" name="skills" id="hidden_skill_list" value="<?= implode(",", $skill_array) ?>">
+
+                <ul class="back_skill_list">
+                    <?php
+                        foreach($this->story['skills'] as $skill)
+                        {
+                    ?>
+                        <li><?=$skill->get_skill_name() ?></li>
+                    <?php
+                        }
+                    ?>
+                </ul>
+                <input id="skill_input" type="text" name="" placeholder="Skills (use , to seperate)" value="">
+
+                </label>
+
+
+            <input class="main-btn" type="submit" value="Opslaan">
+
+
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+        $.get("<?=$this->url(array('controller' => 'ajax', 'action' => 'skill'), null, true) ?>", function(data) {
+            var skill_array = JSON.parse(data);
+            $('#skill_input').autocomplete({source: skill_array});
+
+        });
+
+        $(document).ready(function(){
+            skills();
+        });
+
+        function skills(){
+
+            var inputfield = $('#skill_input');
+            var skillarray = JSON.parse(<?="'".json_encode($skill_array)."'" ?>);
+            var hidden_list = $('#hidden_skill_list');
+            var container = $('.back_skill_list');
+
+
+            inputfield.keydown(function(e){
+
+                var container = $('.back_skill_list');
+                var added = false;
+
+                if(e.keyCode == 188)
+                {
+                    var input = (inputfield.val());
+
+                    if(skillarray.indexOf(input) < 0)
+                    {
+                        container.append($("<li>").text(input).click(function(e){
+
+                            value = $(this).text();
+                            index = (skillarray.indexOf(value));
+                            skillarray.splice(index, 1);
+                            console.log(skillarray);
+                            hidden_list.val(skillarray.join());
+                            $(this).remove();
+                        }));
+
+                        skillarray.push(input);
+                        hidden_list.val(skillarray.join());
+                    }
+                    added = true;
+                    inputfield.keyup(function(e){
+
+                        if(added)
+                        {
+                            inputfield.val(null);
+                            added = false;
+                            console.log(skillarray);
+                        }
+
+                    });
+                }
+            });
+
+            container.find('li').click(function(e){
+                value = $(this).text();
+                index = (skillarray.indexOf(value));
+                skillarray.splice(index, 1);
+                console.log(skillarray);
+                hidden_list.val(skillarray.join());
+                $(this).remove();
+            });
+
+        }
+
+    </script>
+</div>
+

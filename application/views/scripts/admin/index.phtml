@@ -1,0 +1,60 @@
+<h2 class="section-title">Admin Dashboard</h2>
+<div class="message_info_box">
+    Welkom Admin
+</div>
+
+<div class="message_warning_box">
+
+</div>
+
+<div class="grid grid-pad">
+    <div class="col-16">
+        <ul class="menu-list">
+            <li><a href="<?= $this->url(array(  'controller' => 'story',
+                    'action' => 'admin'), null, true)?>">Stories</a></li>
+            <li><a href="<?= $this->url(array(  'controller' => 'comp',
+                    'action' => 'index'), null, true)?>">Competenties</a></li>
+            <li><a href="<?= $this->url(array(  'controller' => 'pages',
+                    'action' => 'index'), null, true)?>">Pages</a></li>
+            <li><a href="<?= $this->url(array(  'controller' => 'register',
+                    'action' => 'index'), null, true)?>">Gebruiker aanmaken</a></li>
+
+        </ul>
+    </div>
+    <div class="col-6">
+        <button class="main-btn clean-skills">Clean skills</button>
+    </div>
+    <div class="col-10">
+
+    </div>
+</div>
+
+<script>
+    var warningbox = $('.message_warning_box');
+    warningbox.hide();
+    var button = $('.clean-skills');
+
+    console.log(button);
+
+    button.click(function(e){
+
+        console.log('clicked');
+
+        $.ajax({
+            url: '<?=$this->url(array('controller' => 'skill', 'action' => 'removeunlinked')) ?>',
+            type: 'POST',
+            data: {key : 'effe48e221a19c7edd49b509a7f78302'},
+            success: function(response)
+            {
+                console.log(response);
+                warningbox.text($.parseJSON(response));
+                warningbox.show();
+            },
+            error: function(xhr)
+            {
+                console.log(xhr);
+            }
+        })
+
+    });
+</script>

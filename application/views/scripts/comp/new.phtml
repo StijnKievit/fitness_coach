@@ -1,0 +1,49 @@
+<h2 class="section-title">Competenties</h2>
+<div class="message_info_box">
+    <a href="<?=$this->url(array( 'controller' => 'admin', 'action' => 'index'), null, true) ?>">Terug naar dashboard</a>
+</div>
+<div class="grid-pad grid">
+
+    <div class="col-10">
+        <form method="post">
+
+            <label class="">
+                Competentie type:
+                <select name="comp_type">
+                    <?
+                    foreach($this->comp_type_list as $item)
+                    {
+                        ?>
+                        <option value="<?=$item['id'] ?>"><?=$item['name'] ?></option>
+                        <?
+                    }
+                    ?>
+                </select>
+            </label>
+
+
+            <label class="">
+                Competentie:
+                <input type="text" name="comp_name" placeholder="Competentie">
+            </label>
+            <div class="">
+                <input class="main-btn" type="submit" value="Opslaan">
+            </div>
+
+
+        </form>
+    </div>
+    <div class="col-6">
+        <ul class="list_basic">
+            <?
+            foreach($this->comp_list as $competentie)
+            {
+                ?>
+                <li><?=$competentie['name'] ?><span class="blue type"> - <?=$competentie['type'] ?></span></li>
+                <?
+            }
+            ?>
+        </ul>
+    </div>
+</div>
+

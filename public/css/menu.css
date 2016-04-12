@@ -1,0 +1,245 @@
+nav.nav{
+
+    text-align: center;
+}
+
+nav.nav:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+nav.nav ul{
+    display: block;
+    white-space: nowrap;
+}
+
+nav.nav ul li{
+    display: inline-block;
+    border-right: 1px solid #FFF;
+    padding: 0 8px;
+    font-size: 1.1em;
+}
+
+nav.nav ul li:last-child{
+    border: none;
+}
+
+
+nav.nav > ul > li > a{
+    color: #FFF;
+    font-size: 1.12em;
+    font-weight: 600;
+}
+
+nav.nav > ul > li > a:hover{
+    color: #00B6DE;
+}
+
+.menu-burger {
+    display: block;
+    position: relative;
+    top: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 96px;
+    height: 96px;
+    font-size: 0;
+    text-indent: -9999px;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.menu-burger:focus {
+    outline: none;
+}
+
+.menu-burger span {
+    display: block;
+    position: absolute;
+    top: 44px;
+    left: 18px;
+    right: 18px;
+    height: 8px;
+    background: white;
+}
+
+.menu-burger span::before,
+.menu-burger span::after {
+    position: absolute;
+    display: block;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #fff;
+    content: "";
+}
+
+.menu-burger span::before {
+    top: -20px;
+}
+
+.menu-burger span::after {
+    bottom: -20px;
+}
+
+.menu-burger--htx {
+    background-color: transparent;
+}
+
+.menu-burger--htx span {
+    transition: background 0s 0.3s;
+}
+
+.menu-burger--htx span::before,
+.menu-burger--htx span::after {
+    transition-duration: 0.3s, 0.3s;
+    transition-delay: 0.3s, 0s;
+}
+
+.menu-burger--htx span::before {
+    transition-property: top, transform;
+}
+
+.menu-burger--htx span::after {
+    transition-property: bottom, transform;
+}
+
+/* active state, i.e. menu open */
+.menu-burger--htx.is-active {
+    background-color: #cb0032;
+    height: 104px;
+    top: -10px;
+}
+
+.menu-burger--htx.is-active span {
+    background: none;
+}
+
+.menu-burger--htx.is-active span::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.menu-burger--htx.is-active span::after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+.menu-burger--htx.is-active span::before,
+.menu-burger--htx.is-active span::after {
+    transition-delay: 0s, 0.3s;
+}
+
+@media only screen and (max-width: 765px) {
+
+    nav.nav{
+        position: absolute;
+        top: 20px;
+
+
+    }
+
+    header div.title{
+        text-align: right;
+    }
+
+    nav.nav a.menu-burger{
+        display: block;
+        position: absolute;
+        top: 20px;
+        left: 60px;
+    }
+
+    nav.nav ul.nav-list{
+        display: none;
+    }
+
+    nav.nav ul.is-active{
+        display: block;
+        background-color: #012429;
+        position: absolute;
+        top: 110px;
+        left: -20px;
+
+        z-index: 300;
+        -webkit-animation-name: nav-animation;
+        -webkit-animation-duration: 0.6s;
+        animation-name: nav-animation;
+        animation-duration: 0.6s;
+    }
+
+    nav.nav ul.nav-list > li{
+        float: none;
+        border: none;
+        white-space: normal;
+        display: block;
+        margin: 10px 0;
+        padding-top: 10px;
+        text-align: left;
+        padding-left: 20px;
+        width: 300px;
+        /*border-top: 1px solid #FFF;*/
+        /*animations*/
+
+
+    }
+
+    nav.nav ul.nav-list > li:first-child{
+        padding-top: 0;
+        border: none;
+    }
+
+    nav.nav ul.nav-list > li > a{
+        width: 300px;
+        display: block;
+        font-weight: lighter;
+        font-size: 2em;
+    }
+
+    /*nav animation*/
+
+    @-webkit-keyframes nav-animation {
+        0%  {left: -80%}
+       /* 25% {left: -140px}
+        50% {left: -100px}
+        75% {left: -60px }*/
+        100%{left: -20px }
+    }
+    @keyframes nav-animation  {
+        0%  {left: -80%}
+       /* 25% {left: -140px}
+        50% {left: -100px}
+        75% {left: -60px }*/
+        100%{left: -20px }
+    }
+
+
+
+}
+
+@media only screen and (min-width: 766px) {
+    nav.nav a.menu-burger{
+        display: none;
+    }
+
+    nav.nav ul.nav-list{
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    nav.nav ul.nav-list:after{
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    .menu-burger{
+        display: none;
+    }
+}

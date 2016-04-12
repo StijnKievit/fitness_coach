@@ -1,0 +1,41 @@
+<h2 class="section-title">Pagina aanmaken</h2>
+<div class="grid-pad grid">
+    <div class="message_info_box">
+        <a href="<?=$this->url(array(
+            'controller' => 'pages',
+            'action' => 'index',
+            'id'    => null)) ?>">Terug naar overzicht</a>
+    </div>
+    <?php if(isset($this->result)): ?>
+    <div class="message_info2_box">
+        <span class="white">De pagina is opgeslagen.</span>
+    </div>
+    <?php endif; ?>
+    <div class="col-10">
+        <form method="post">
+            <label>Titel
+                <input type="text" name="page_title" placeholder="Titel">
+            </label>
+
+            <label>Code
+                <input type="text" name="page_code" placeholder="Indentifier">
+            </label>
+
+            <label>Content
+            <textarea class="jqte_editor" name="page_content" placeholder="Pagina HTML"></textarea>
+            </label>
+            <label>Indexeren
+                <select name="show_overview">
+                    <option value="ja">Ja</option>
+                    <option value="nee">Nee</option>
+                </select>
+            </label>
+
+            <input class="main-btn" type="submit" value="Pagina Toevoegen">
+        </form>
+    </div>
+</div>
+
+<script>
+    $('.jqte_editor').jqte();
+</script>

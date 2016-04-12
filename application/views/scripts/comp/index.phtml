@@ -1,0 +1,71 @@
+<h2 class="section-title">Competenties</h2>
+<div class="message_info_box">
+    <a href="<?=$this->url(array( 'controller' => 'admin', 'action' => 'index')) ?>">Terug naar dashboard</a>
+</div>
+<div class="grid grid-pad">
+    <div class="col-6">
+        <a class="main-btn" href="<?=$this->url(array('controller' => 'comp', 'action' => 'new'), null, true) ?>">Nieuwe competentie aanmaken</a>
+    </div>
+    <div class="col-10">
+        <section class="grid-pad">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Completed</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <?
+                foreach($this->comp_list as $comp)
+                {
+                    ?>
+                    <tr>
+                        <td><?=$comp['name'] ?></td>
+                        <td><?=$comp['type'] ?></td>
+                        <td>
+                            <form method="post">
+                                <input type="checkbox" name="completed" value="<?=$comp['id'] ?>" <? if($comp['completed'] != 0) echo 'checked' ?>>
+                            </form>
+                        </td>
+
+                    </tr>
+                    <?
+                }
+                ?>
+
+
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+</div>
+
+
+
+<div class="comp_checklist">
+
+    <script>
+        $(document).ready(function(e){
+
+            $("input[name='completed']").change(function(e)
+            {
+               console.log($(this).context.checked);
+               console.log($(this).context.defaultValue);
+
+                $.post( "<?=$this->url(array(
+                    'action' => 'index'
+                ))?>", { completed: $(this).context.checked, id: $(this).context.defaultValue  }).done(function () {
+
+                    console.log('updated');
+
+                });
+            });
+
+        });
+
+    </script>
+</div>

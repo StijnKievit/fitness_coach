@@ -1,0 +1,127 @@
+
+    <!--<h2 class="section-title">Artikelen</h2>-->
+
+
+    <div class="grid adapting-grid-pad">
+        <div class="gray_box">
+            <h2 class="white_box section-title">Artikelen</h2>
+            <?php
+            if(count($this->pages) < 1):
+                ?>
+                <div class="message_warning_box">
+                    Geen Artikelen beschikbaar
+                </div>
+                <?php
+            endif;
+            if(Auth_AuthChecker::getInstance()->isAdmin())
+            {
+                ?>
+                <div class="message_info_box">
+                    <a href="<?=$this->url(array(
+                        'controller' => 'pages',
+                        'action' => 'index',
+                        'id'    => null)) ?>">Admin overzicht</a>
+                </div>
+                <?php
+            }
+            ?>
+            <?php if(count($this->content) > 0):
+                foreach($this->content as $item):
+                    ?>
+                    <div class="col-16 no-pad">
+                        <div class="white_box">
+                            <h3><?=$item->title ?></h3>
+                            <?=$item->content ?>
+                        </div>
+                    </div>
+                    <?php
+                endforeach;
+            endif;
+            ?>
+        </div>
+    </div>
+    <div class="grid adapting-grid-pad">
+        <div id="page-collection-list">
+            <?php
+            foreach($this->pages as $page):
+                ?>
+                <div class="col-1-3 page_item">
+                    <div>
+                        <h2><?=$page->title ?></h2>
+                        <p>
+                            <?=substr(strip_tags($page->content), 0, 150).'...' ?>
+                        </p>
+                        <a class="main-btn" href="<?=$this->url(array("controller" => "pages", "action" => "code", "val" => $page->code)) ?>">Lees meer</a>
+                    </div>
+                </div>
+                <?php
+            endforeach;
+            ?>
+        </div>
+        <div class="pagination-container gray_box">
+                <div class="left pagination-button">
+                    <span class="main-btn" id="page_back">Vorige</span>
+                </div>
+                <div class="white_box pagination-counter"><span class="blue"><span class="cur-page"></span>/<span class="max-page"></span></span></div>
+                <div class="right pagination-button">
+                    <span class="main-btn" id="page_next">Volgende</span>
+                </div>
+                <script>
+                    $(document).ready(function(){
+                        var max_number_per_page = 9;
+                        var pages = 0;
+                        var cur_page = 0;
+                        var story_list = $('#page-collection-list');
+                        var child_elements = story_list.children();
+                        var cur_page_counter = $('.pagination-counter .cur-page');
+                        var max_page_counter = $('.pagination-counter .max-page');
+                        var number_of_child_elements = child_elements.size();
+                        pages = Math.ceil(number_of_child_elements / max_number_per_page);
+
+                        var back_button = $('#page_back');
+                        var next_button = $('#page_next');
+                        var screen_width = $(window).width();
+
+                        if(screen_width < 580)
+                        {
+                            back_button.text('<');
+                            next_button.text('>');
+                        }
+
+                        back_button.click(function(){
+                            if(cur_page > 0){
+                                cur_page--;
+                                update();
+                            }
+                        });
+
+                        next_button.click(function(){
+                            if( cur_page < (pages - 1))
+                            {
+                                cur_page++
+                                update();
+                            }
+                        });
+
+                        update();
+
+                        function update(){
+
+                            max_page_counter.text(pages);
+                            cur_page_counter.text(cur_page + 1);
+                            var cur_index = max_number_per_page * cur_page;
+
+                            child_elements.hide();
+                            for( i = cur_index; i < ((cur_page + 1)* max_number_per_page ); i++ )
+                            {
+                                $(child_elements[i]).show();
+                            }
+                        }
+                    });
+                </script>
+            </div>
+
+
+
+    </div>
+
