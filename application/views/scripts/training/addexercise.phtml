@@ -7,6 +7,8 @@
  */
 
 $type_of_training = $this->training_type;
+$training_id = $this->training_id;
+$training_days = $this->training_days;
 ?>
 
 <div class="main_section">
@@ -25,6 +27,21 @@ if($type_of_training == "cardio"):
         <span>Naam:</span><input type="text" placeholder="Bijv. hardlopen, roeien" name="name">
     </label>
     <label>
+        <span>Dag:</span>
+        <select name="day" class="training_type">
+
+            <?php
+            for ($x = 1; $x <= $training_days; $x++) {
+                ?>
+                <option value="<?=$x?>"><?=$x ?></option>
+
+                <?php
+            }
+
+            ?>
+        </select>
+    </label>
+    <label>
         <span>Type:</span>
         <select name="type" class="training_type">
             <option value="afstand">Afstand</option>
@@ -32,7 +49,7 @@ if($type_of_training == "cardio"):
         </select>
     </label>
     <label class="afstand">
-        <span>Afstand (KM):</span><input type="number" value="0" name="distance">
+        <span>Afstand (meter):</span><input type="number" value="0" name="distance">
     </label>
     <label class="tijd">
         <span>Tijd (minuten):</span><input type="number" value="0" name="time">
@@ -55,13 +72,9 @@ if($type_of_training == "cardio"):
 
         <!--foreacht to add list and title-->
         <h2 class="sub_title left">Afstand</h2>
-        <ul class="basic_list" id="distance">
-
-        </ul>
+        <ul class="basic_list" id="distance"></ul>
         <h2 class="sub_title left">Tijd</h2>
-        <ul class="basic_list" id="time">
-
-        </ul>
+        <ul class="basic_list" id="time"></ul>
 
     </div>
 
@@ -94,15 +107,33 @@ if($type_of_training == "cardio"):
 </script>
 
 
+
+
 <?php
+/*Dit deel is verantwoordelijk voor krachttraining only!!!*/
 endif;
 if($type_of_training == 'kracht'):
 ?>
     <form class="basic_form active_form" method="post" >
         <input type="hidden" value="kracht" name="type_of_training">
-        <input type="hidden" value="1" name="training_id">
+        <input type="hidden" value="<?=$this->training_id ?>" name="training_id">
         <label>
             <span>Naam:</span><input type="text" placeholder="" name="name">
+        </label>
+        <label>
+            <span>Dag:</span>
+            <select name="day" class="training_type">
+
+                <?php
+                for ($x = 1; $x <= $training_days; $x++) {
+                    ?>
+                    <option value="<?=$x?>"><?=$x ?></option>
+
+                    <?php
+                }
+
+                ?>
+            </select>
         </label>
         <label>
             <span>Type:</span>
@@ -138,46 +169,23 @@ if($type_of_training == 'kracht'):
         <h1 class="main_title">Overzicht</h1>
 
         <!--foreacht to add list and title-->
-        <h2 class="sub_title left">Afstand</h2>
-        <ul class="basic_list distance">
-            <li data-id = "1234" class="train_item working_item">
-                <span>
-                    Wielrenen
-                </span>
-                <div class="item_selection">
-                    <a href="" class="">Aanpassen</a>
-                    <a href="" class="">Verwijderen</a>
-                </div>
-            </li>
-            <li data-id = "1234" class="train_item working_item">
-                <span>
-                    Hardlopen
-                </span>
-                <div class="item_selection">
-                    <a href="" class="">Aanpassen</a>
-                    <a href="" class="">Verwijderen</a>
-                </div>
-            </li>
-        </ul>
-        <h2 class="sub_title left">Tijd</h2>
-        <ul class="basic_list time">
-            <li data-id = "1234" class="train_item working_item">
-                <span>
-                    Roeien
-                </span>
-                <div class="item_selection">
-                    <a href="" class="">Aanpassen</a>
-                    <a href="" class="">Verwijderen</a>
-                </div>
-            </li>
-        </ul>
+        <h2 class="sub_title left">Benen & billen</h2>
+        <ul class="basic_list" id="benen"></ul>
+        <h2 class="sub_title left">Borst</h2>
+        <ul class="basic_list" id="borst"></ul>
+        <h2 class="sub_title left">Rug</h2>
+        <ul class="basic_list rug" id="rug"></ul>
+        <h2 class="sub_title left">Schouders</h2>
+        <ul class="basic_list schouders" id="schouders"></ul>
+        <h2 class="sub_title left">Armen</h2>
+        <ul class="basic_list armen" id="armen"></ul>
 
     </div>
-
-
-
 <?php
 endif;
+
+
+/*dit deel behoort to beide schermen*/
 ?>
 <!--submit script-->
 <script>
@@ -193,41 +201,55 @@ endif;
             var data = $.parseJSON(data);
             console.log(data);
             /*add list item to the right location*/
+
+            /*cardio lists*/
             var afstand_list = $('#distance');
             var tijd_list = $('#time');
-            var day = 0;
-            console.log(data);
-            console.log('type = '+data.type)
+
+            /*kracht lists*/
+            var benen_list = $('#benen');
+            var borst_list = $('#borst');
+            var rug_list = $('#rug');
+            var schouder_list = $('#schouders');
+            var arm_list = $('#armen');
+
             switch (data.type) {
                 case 'afstand':
                     afstand_list.append(data.html);
-                    change_list();
+                    update();
                     break;
                 case 'tijd':
-                    tijd_list.append('testest-tijd');
+                    tijd_list.append(data.html);
+                    update();
                     break;
-                case 2:
-                    day = "Tuesday";
+                case 'benen':
+                    benen_list.append(data.html);
+                    update();
                     break;
-                case 3:
-                    day = "Wednesday";
+                case 'borst':
+                    borst_list.append(data.html);
+                    update();
                     break;
-                case 4:
-                    day = "Thursday";
+                case 'rug':
+                    rug_list.append(data.html);
+                    update();
                     break;
-                case 5:
-                    day = "Friday";
+                case 'schouders':
+                    schouder_list.append(data.html);
+                    update();
                     break;
-                case 6:
-                    day = "Saturday";
+                case 'armen':
+                    arm_list.append(data.html);
+                    update();
                     break;
             }
+        });
 
-
-
-
-        })
-
+        //clear form after submit: except button, submit, rest & hidden
+        $(':input','.active_form')
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked');
     });
 
 
@@ -236,6 +258,11 @@ endif;
 
 <!--overview script-->
 <script>
+    function update(){
+        change_list();
+        remove_exericises();
+        update_list();
+    }
 
     function change_list(){
         var items = $('.item_selection');
@@ -246,10 +273,36 @@ endif;
             console.log('item is clicked');
             $(this).toggleClass('active');
             $(this).children(".item_selection").slideToggle();
-        });
+    });
     }
 
-    change_list();
+    function update_list(){
+
+            $("ul").children( "span").remove();
+            $("ul:empty").append("<span class='message'>Geen oefeningen</span>");
+
+    }
+
+
+    function remove_exericises(){
+        var list = $('.remove');
+        list.click(function (e) {
+
+            e.preventDefault();
+            var clicked_item = $(this);
+            var id = clicked_item.attr('data-id');
+            var item = clicked_item.closest('li');
+
+            $.post( "<?= $this->url(array(  'controller' => 'ajax',
+                'action' => 'removeexercise'))?>", "id="+id, function( data ) {
+                item.remove();
+                update();
+                })
+            });
+        }
+
+
+    update();
 </script>
 
 

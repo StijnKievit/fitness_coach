@@ -419,6 +419,10 @@ h2.sub_title{
     margin: 0;
 }
 
+.basic_list span.message{
+    font-size: 2em;
+}
+
 .basic_list li{
     display: block;
     text-align: left;
@@ -444,7 +448,9 @@ h2.sub_title{
 .item_selection{
 
 }
-.item_selection a{
+.item_selection a,
+.item_selection .edit,
+.item_selection .remove{
     display: block;
     padding: 10px;
     border-top: 1px solid #FFFFFF;

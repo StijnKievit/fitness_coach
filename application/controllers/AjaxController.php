@@ -41,6 +41,7 @@ class AjaxController extends Zend_Controller_Action
                     $data_array = array(
                         "training_id" => $params['training_id'],
                         "name" => $params['name'],
+                        "training_day" => $params['day'],
                         "type" => $params['type'],
                         "distance" => $params['distance'],
                         "time" => $params['time'],
@@ -56,13 +57,14 @@ class AjaxController extends Zend_Controller_Action
                                 ".$newRow['name']."
                             </span>
                             <div class=\"item_selection\">
-                                <a data-id = '".$newRow['id']. "' href=\"\" class=\"edit\">Aanpassen</a>
-                                <a data-id =  '".$newRow['id']."'href=\"\" class=\"remove\">Verwijderen</a>
+
+                                <a data-id =  '".$newRow['id']."'href=\"#\" class=\"remove\">Verwijderen</a>
                             </div>
                         </li>
 
                         ");
 
+                        /*to edit: <span data-id = '".$newRow['id']. "' class=\"edit\">Aanpassen</span>*/
                         echo json_encode($data_return);
 
                     }
@@ -70,12 +72,55 @@ class AjaxController extends Zend_Controller_Action
                 if($params['type_of_training'] == "kracht")
                 {
                     $db_table = new Application_Model_DbTable_KrachtExercise();
-                    echo 'its kracht';
+                    $data_array = array(
+                        "training_id" => $params['training_id'],
+                        "name" => $params['name'],
+                        "training_day" => $params['day'],
+                        "type" => $params['type'],
+                        "sets" => $params['sets'],
+                        "reps" => $params['reps'],
+
+                    );
+
+                    $newRow = $db_table->createRow($data_array);
+                    if($newRow->save())
+                    {
+                        $data_return = array('id' => $newRow['id'], 'type' => $newRow['type'], 'name' => $newRow['name'], 'html'=> "
+
+                        <li data-id = '".$newRow['id']."' class=\"train_item working_item\"><span>
+                                ".$newRow['name']."
+                            </span>
+                            <div class=\"item_selection\">
+
+                                <span data-id =  '".$newRow['id']."' class=\"remove\">Verwijderen</span>
+                            </div>
+                        </li>
+
+                        ");
+                        /*to edit: <span data-id = '".$newRow['id']. "' class=\"edit\">Aanpassen</span>*/
+                        echo json_encode($data_return);
+                    }
+
                 }
 
             }
         }
         /*echo json_encode($request);*/
+    }
+
+    public function removeexerciseAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+                $params = ($request->getParams());
+                var_dump($params);
+            }
+        }
+
     }
 
     public function editexercise(){

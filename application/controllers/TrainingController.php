@@ -50,7 +50,8 @@ class TrainingController extends Zend_Controller_Action
                     ));
                 */
                     $this->_forward('addexercise', null, null, array('training_id' => $result['id'],
-                                                                     'type' => $result['type']   ));
+                                                                     'type' => $result['type'],
+                                                                     'days' => $result['training_days']   ));
                 }
 
 
@@ -76,6 +77,12 @@ class TrainingController extends Zend_Controller_Action
 
         $this->view->training_id = $params['training_id'];
         $this->view->training_type = $params['type'];
+        $this->view->training_days = $params['days'];
+
+    }
+
+    public function activetrainingAction()
+    {
 
     }
 
