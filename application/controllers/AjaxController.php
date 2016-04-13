@@ -23,44 +23,70 @@ class AjaxController extends Zend_Controller_Action
 
     }
 
-    public function skillAction(){
-
+    public function addexerciseAction(){
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $skill_model = new Application_Model_DbTable_Skill();
-        $skills = $skill_model->fetchAll();
-        $skill_array = array();
+        $request = $this->getRequest();
 
-        foreach ($skills as $skill){
-            array_push($skill_array, $skill['name'] );
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+                $params = ($request->getParams());
+
+                if($params['type_of_training'] == "cardio")
+                {
+
+                    $db_table = new Application_Model_DbTable_CardioExercise();
+
+                    $data_array = array(
+                        "training_id" => $params['training_id'],
+                        "name" => $params['name'],
+                        "type" => $params['type'],
+                        "distance" => $params['distance'],
+                        "time" => $params['time'],
+
+                    );
+
+                    $newRow = $db_table->createRow($data_array);
+                    if($newRow->save()){
+
+                        $data_return = array('id' => $newRow['id'], 'type' => $newRow['type'], 'name' => $newRow['name'], 'html'=> "
+
+                        <li data-id = '".$newRow['id']."' class=\"train_item working_item\"><span>
+                                ".$newRow['name']."
+                            </span>
+                            <div class=\"item_selection\">
+                                <a data-id = '".$newRow['id']. "' href=\"\" class=\"edit\">Aanpassen</a>
+                                <a data-id =  '".$newRow['id']."'href=\"\" class=\"remove\">Verwijderen</a>
+                            </div>
+                        </li>
+
+                        ");
+
+                        echo json_encode($data_return);
+
+                    }
+                }
+                if($params['type_of_training'] == "kracht")
+                {
+                    $db_table = new Application_Model_DbTable_KrachtExercise();
+                    echo 'its kracht';
+                }
+
+            }
         }
-
-        echo json_encode($skill_array);
+        /*echo json_encode($request);*/
     }
 
-    public function storyAction(){
-
+    public function editexercise(){
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $story_model = new Application_Model_DbTable_Story();
-        $stories = $story_model->fetchAll();
+    }
 
-        $story_array = array();
+    public function getexercise(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
 
-        foreach ($stories as $story){
-
-            $item = array(
-                'title' => $story['title'],
-                'timestamp' => $story['time_stamp'],
-                'introduction' => $story['introduction'],
-                'challenges' => $story['challenges'],
-                'conclusion' => $story['conclusion']
-            );
-
-            array_push($story_array, $item);
-        }
-        echo json_encode($story_array);
     }
 }

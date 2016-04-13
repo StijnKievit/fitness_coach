@@ -42,12 +42,18 @@ class TrainingController extends Zend_Controller_Action
                 $training_model = new Application_Model_Training();
                 $result = $training_model->save(trim($request->getParam('name')), trim($request->getParam('type')),$request->getParam('days'), $request->getParam('weeks') );
 
-                var_dump($result["id"]);
-                if(count($result) > 1){
-                    $this->view->message = 'Training is toegevoegd!';
+
+
+                    /*redirect to new location
+                    $this->forward()->dispatch("addexercise", null ,null , array(
+                        'training_id' => $result['id']
+                    ));
+                */
+                    $this->_forward('addexercise', null, null, array('training_id' => $result['id'],
+                                                                     'type' => $result['type']   ));
                 }
 
-            }
+
         }
     }
     //add excersice to training
@@ -63,6 +69,15 @@ class TrainingController extends Zend_Controller_Action
 
     }
 
+    public function addexerciseAction(){
+
+        $request = $this->getRequest();
+        $params = $request->getParams();
+
+        $this->view->training_id = $params['training_id'];
+        $this->view->training_type = $params['type'];
+
+    }
 
 
 }

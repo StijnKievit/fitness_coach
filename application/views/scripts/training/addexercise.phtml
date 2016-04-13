@@ -1,0 +1,255 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: stijn
+ * Date: 13-4-2016
+ * Time: 09:48
+ */
+
+$type_of_training = $this->training_type;
+?>
+
+<div class="main_section">
+    <h1 class="main_title">Oefeningen toevoegen</h1>
+    <h2 class="sub_title"><?=$type_of_training ?></h2>
+</div>
+
+<?php
+if($type_of_training == "cardio"):
+?>
+<!--do form with ajax call if i have the time-->
+<form class="basic_form active_form" method="post" >
+    <input type="hidden" value="cardio" name="type_of_training">
+    <input type="hidden" value="<?=$this->training_id ?>" name="training_id">
+    <label>
+        <span>Naam:</span><input type="text" placeholder="Bijv. hardlopen, roeien" name="name">
+    </label>
+    <label>
+        <span>Type:</span>
+        <select name="type" class="training_type">
+            <option value="afstand">Afstand</option>
+            <option value="tijd">Tijd</option>
+        </select>
+    </label>
+    <label class="afstand">
+        <span>Afstand (KM):</span><input type="number" value="0" name="distance">
+    </label>
+    <label class="tijd">
+        <span>Tijd (minuten):</span><input type="number" value="0" name="time">
+    </label>
+    <?php
+    if($this->message != null){
+        ?>
+        <div class="message_warning_box">
+            <?=$this->message ?>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="">
+        <input type="submit" value="Toevoegen" class="main_button form_btn">
+    </div>
+</form>
+    <div class="main_section newsection">
+        <h1 class="main_title">Overzicht</h1>
+
+        <!--foreacht to add list and title-->
+        <h2 class="sub_title left">Afstand</h2>
+        <ul class="basic_list" id="distance">
+
+        </ul>
+        <h2 class="sub_title left">Tijd</h2>
+        <ul class="basic_list" id="time">
+
+        </ul>
+
+    </div>
+
+    <script>
+    /*use for switching form fields*/
+    var afstand_form = $('.afstand');
+    var tijd_form = $('.tijd');
+    tijd_form.hide();
+    afstand_form.show();
+
+
+    $(".training_type").change(function(e){
+
+        var value = $(this).val();
+        console.log(value);
+
+        if(value == 'afstand'){
+            console.log('now its distance');
+            afstand_form.show();
+            tijd_form.hide();
+        }
+        if(value == 'tijd')
+        {
+            console.log('now its time');
+            tijd_form.show();
+            afstand_form.hide();
+        }
+    });
+
+</script>
+
+
+<?php
+endif;
+if($type_of_training == 'kracht'):
+?>
+    <form class="basic_form active_form" method="post" >
+        <input type="hidden" value="kracht" name="type_of_training">
+        <input type="hidden" value="1" name="training_id">
+        <label>
+            <span>Naam:</span><input type="text" placeholder="" name="name">
+        </label>
+        <label>
+            <span>Type:</span>
+            <select name="type" class="training_type">
+                <option value="benen">Benen & billen</option>
+                <option value="borst">Borst</option>
+                <option value="rug">Rug</option>
+                <option value="schouders">Schouders</option>
+                <option value="armen">Armen</option>
+            </select>
+        </label>
+        <label class="">
+            <span>Sets:</span><input type="number" value="0" name="sets">
+        </label>
+        <label class="">
+            <span>Herhalingen:</span><input type="number" value="0" name="reps">
+        </label>
+        <?php
+        if($this->message != null){
+            ?>
+            <div class="message_warning_box">
+                <?=$this->message ?>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="">
+            <input type="submit" value="Toevoegen" class="main_button form_btn">
+        </div>
+
+    </form>
+    <div class="main_section newsection">
+        <h1 class="main_title">Overzicht</h1>
+
+        <!--foreacht to add list and title-->
+        <h2 class="sub_title left">Afstand</h2>
+        <ul class="basic_list distance">
+            <li data-id = "1234" class="train_item working_item">
+                <span>
+                    Wielrenen
+                </span>
+                <div class="item_selection">
+                    <a href="" class="">Aanpassen</a>
+                    <a href="" class="">Verwijderen</a>
+                </div>
+            </li>
+            <li data-id = "1234" class="train_item working_item">
+                <span>
+                    Hardlopen
+                </span>
+                <div class="item_selection">
+                    <a href="" class="">Aanpassen</a>
+                    <a href="" class="">Verwijderen</a>
+                </div>
+            </li>
+        </ul>
+        <h2 class="sub_title left">Tijd</h2>
+        <ul class="basic_list time">
+            <li data-id = "1234" class="train_item working_item">
+                <span>
+                    Roeien
+                </span>
+                <div class="item_selection">
+                    <a href="" class="">Aanpassen</a>
+                    <a href="" class="">Verwijderen</a>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+
+
+<?php
+endif;
+?>
+<!--submit script-->
+<script>
+    $(".active_form").submit(function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        console.log(data);
+
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'addexercise'))?>", data, function( data ) {
+            console.log(data);
+
+            var data = $.parseJSON(data);
+            console.log(data);
+            /*add list item to the right location*/
+            var afstand_list = $('#distance');
+            var tijd_list = $('#time');
+            var day = 0;
+            console.log(data);
+            console.log('type = '+data.type)
+            switch (data.type) {
+                case 'afstand':
+                    afstand_list.append(data.html);
+                    change_list();
+                    break;
+                case 'tijd':
+                    tijd_list.append('testest-tijd');
+                    break;
+                case 2:
+                    day = "Tuesday";
+                    break;
+                case 3:
+                    day = "Wednesday";
+                    break;
+                case 4:
+                    day = "Thursday";
+                    break;
+                case 5:
+                    day = "Friday";
+                    break;
+                case 6:
+                    day = "Saturday";
+                    break;
+            }
+
+
+
+
+        })
+
+    });
+
+
+</script>
+
+
+<!--overview script-->
+<script>
+
+    function change_list(){
+        var items = $('.item_selection');
+        console.log('item_list is updated');
+        items.hide();
+
+        items.parent().click(function(e){
+            console.log('item is clicked');
+            $(this).toggleClass('active');
+            $(this).children(".item_selection").slideToggle();
+        });
+    }
+
+    change_list();
+</script>
+
+
