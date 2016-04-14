@@ -13,6 +13,9 @@ class Application_Model_ActiveTraining{
     private $dbtable_cardioexe;
     private $dbtable_krachtexe;
     private $training_id;
+
+
+    public $training_type;
     public  $training_name;
     public $completed;
     private $training_weeks;
@@ -46,14 +49,79 @@ class Application_Model_ActiveTraining{
     public function init($id){
         $this->training_id = $id;
 
+    }
 
+    public function set_max_days($days){
+        $this->training_days = $days;
+    }
+    public function set_max_weeks($weeks){
+        $this->training_weeks = $weeks;
+    }
 
+    /*initialize training*/
+    public function createTraining(){
+
+        if($this->training_type == 'cardio'){
+
+            $oefeningen = $this->dbtable_cardioexe->fetchAll(
+                $this->dbtable_cardioexe->select()
+                                        ->where('training_id ='.$this->training_id )
+                                        ->where('training_day = '.$this->cur_day)
+            );
+
+            foreach($oefeningen as $oefening)
+            {
+                $item = array(
+                  "id" => $oefening['id'],
+                    "training_id" => $oefening['training_id'],
+                    "training_day" => $oefening['training_day'],
+                    "name" => $oefening['name'],
+                    "type" => $oefening['type'],
+                    "distance" => $oefening['distance'],
+                    "time" => $oefening["time"]
+                );
+
+                array_push($this->exercise_list , $item);
+            }
+
+        }
+        elseif($this->training_type == 'kracht')
+        {
+            $oefeningen = $this->dbtable_cardioexe->fetchAll(
+                $this->dbtable_krachtexe->select()
+                    ->where('training_id ='.$this->training_id )
+                    ->where('training_day = '.$this->cur_day)
+            );
+
+            foreach($oefeningen as $oefening)
+            {
+                $item = array(
+                    "id" => $oefening['id'],
+                    "training_id" => $oefening['training_id'],
+                    "training_day" => $oefening['training_day'],
+                    "name" => $oefening['name'],
+                    "type" => $oefening['type'],
+                    "sets" => $oefening['sets'],
+                    "reps" => $oefening["reps"]
+                );
+
+                array_push($this->exercise_list , $item);
+            }
+        }
 
 
     }
 
+    public function getExercises($type){
 
+        if($type == 'json'){
+            return json_encode($this->exercise_list);
+        }
+        else{
+            return $this->exercise_list;
+        }
 
+    }
 }
 
 ?>

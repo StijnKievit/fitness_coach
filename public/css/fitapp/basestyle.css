@@ -116,7 +116,9 @@ body{
 
 .menu_buffer{
     display: block;
-    margin-bottom: 80px;
+
+    /*was 80 px maar door padding appcontainer moet t 60 zijn*/
+    margin-bottom: 60px;
 }
 
 .helper {

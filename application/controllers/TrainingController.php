@@ -84,6 +84,43 @@ class TrainingController extends Zend_Controller_Action
     public function activetrainingAction()
     {
 
+        $request = $this->getRequest();
+        $params = $request->getParams();
+
+        if(array_key_exists( 'active', $params) ){
+
+        }
+        else{
+
+/*            $training_id = $params['training_id'];*/
+            $training_id = 76;
+
+            $db_table_training = new Application_Model_DbTable_Training();
+            $result = $db_table_training->fetchRow(
+                $db_table_training->select()
+                    ->where("id =" .$training_id)
+            );
+
+/*            var_dump($result['type']);*/
+            $training_type = $result['type'];
+
+            $training_model = new Application_Model_ActiveTraining();
+            $training_model->init($training_id);
+            $training_model->training_type = $training_type;
+            $training_model->set_max_days($result['training_days']);
+            $training_model->set_max_weeks($result['training_weeks']);
+            $training_model->cur_day = $result['cur_day'];
+            $training_model->cur_week = $result['cur_week'];
+            $training_model->completed = $result['completed'];
+
+            $training_model->createTraining();
+            $this->view->oefeningen = $training_model->getExercises();
+            $this->view->training_type = $training_model->training_type;
+
+            //getmodel
+
+        }
+
     }
 
 

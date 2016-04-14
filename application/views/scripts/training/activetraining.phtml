@@ -16,12 +16,141 @@
         dag 2
     </h2>
 </div>
+
+<?php
+foreach($this->oefeningen as $oefening):
+?>
 <div class="training_container">
-    <h2 class="title">Squats</h2>
+    <div class="training_description">
+        <a class="icon_back" href="<?=$this->url(array(  'controller' => 'training',
+            'action' => 'index'), null, true)?>">" <img class="" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" alt="terug" >
+        </a>
+        <h2 class="title"><?=$oefening['name'] ?></h2>
+        <h3 class="sub_title"><?=$oefening['type'] ?></h3>
+        <a class="icon_next" href="<?=$this->url(array(  'controller' => 'training',
+            'action' => 'index'), null, true)?>">" <img class="" src="<?=$this->baseUrl('img/icons/next_arrow_icon.png') ?>" alt="volgende" >
+        </a>
+    </div>
+    <?php
+        if($this->training_type == 'kracht'):
+    ?>
+
+    <!--if type = kracht-->
+            <p class="instruction">
+                <span><?=$oefening['reps'] ?></span> herhalingen voor <span><?=$oefening['sets'] ?></span> sets.
+            </p>
+
+            <form class="basic_form">
+                <?php
+                $amount_of_sets = $oefening['sets'];
+
+                for ($x = 1; $x <= $amount_of_sets; $x++) {
+                    ?>
+                    <label>
+                        set <?=$x ?>:
+                        <input type="number" name="set<?=$x?>">
+                    </label>
+
+                    <?php
+                }
+                ?>
+                <input type="submit" value="Opslaan" class="main_button">
+            </form>
+
+
+
+    <?php
+            endif;
+        if($this->training_type == 'cardio'):
+
+
+            if($oefening['type'] == 'afstand')
+            {
+    ?>
+                <p class="instruction">
+                    <span><?=$oefening['name']?></span> voor <span><?=$oefening['distance'] ?></span> meter.
+                </p>
+                <form class="basic_form">
+                    <label>
+                        Minuten:
+                        <input type="number" />
+                    </label>
+                    <input type="hidden" value="<?=$oefening['distance'] ?>" name="distance">
+                    <?php
+
+
+                    ?>
+                    <input type="submit" value="Opslaan" class="main_button">
+                </form>
+    <?php
+            }
+            if($oefening['type'] == 'tijd')
+            {
+    ?>
+                <p class="instruction">
+                    <span><?=$oefening['name'] ?></span> voor <span><?=$oefening['time'] ?></span> minuten.
+                </p>
+                <form class="basic_form">
+                    <label>
+                        Meters:
+                        <input type="number" />
+                    </label>
+                    <input type="hidden" value="<?=$oefening['time'] ?>" name="time">
+
+                    <?php
+
+
+                    ?>
+                    <input type="submit" value="Opslaan" class="main_button">
+                </form>
+    <?php
+            }
+            ?>
+
+    <!--if type = cardio-->
+
+    <?php
+        endif;
+    ?>
+</div>
+
+<?php
+endforeach;
+?>
+
+<!--<div class="training_container">
+    <div class="training_description">
+        <a class="icon_back" href="<?/*=$this->url(array(  'controller' => 'training',
+            'action' => 'index'), null, true)*/?>">" <img class="" src="<?/*=$this->baseUrl('img/icons/back_arrow_icon.png') */?>" alt="terug" >
+        </a>
+        <h2 class="title">Squats</h2>
+        <h3 class="sub_title">Benen & billen</h3>
+        <a class="icon_next" href="<?/*=$this->url(array(  'controller' => 'training',
+            'action' => 'index'), null, true)*/?>">" <img class="" src="<?/*=$this->baseUrl('img/icons/next_arrow_icon.png') */?>" alt="volgende" >
+        </a>
+    </div>
     <p class="instruction">
         <span>20</span> herhalingen voor <span>2</span> sets.
     </p>
-</div>
+    <form class="basic_form">
+        <?php
+/*        $amount_of_sets = 3;
+
+        for ($x = 1; $x <= $amount_of_sets; $x++) {
+
+
+        */?>
+        <label>
+            set <?/*=$x */?>:
+            <input type="number" name="set<?/*=$x*/?>">
+        </label>
+
+        <?php
+/*        }
+        */?>
+        <input type="submit" value="Opslaan" class="main_button">
+    </form>
+</div>-->
 
 
 
