@@ -26,11 +26,31 @@ class TrainingController extends Zend_Controller_Action
     /*return list of your training options*/
     public function selecttrainingAction(){
 
-        $training_model = new Application_Model_Training();
-        $trainingen = $training_model->getTrainingen();
+        $request = $this->getRequest();
 
-        $this->view->trainingen = $trainingen;
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+
+                $params = $request->getParams();
+
+                $user_table = new Application_Model_DbTable_User();
+
+                $data = array(
+                    "current_training" => $params['training_id']
+                );
+
+                $user_table->update($data, "id=".Auth_AuthChecker::getInstance()->getId());
+            }
+        }
+        else{
+            $training_model = new Application_Model_Training();
+            $trainingen = $training_model->getTrainingen();
+
+            $this->view->trainingen = $trainingen;
+        }
     }
+
+
     /*create an training*/
     public function addtrainingAction()
     {
@@ -93,7 +113,7 @@ class TrainingController extends Zend_Controller_Action
         else{
 
 /*            $training_id = $params['training_id'];*/
-            $training_id = 76;
+            $training_id = 70;
 
             $db_table_training = new Application_Model_DbTable_Training();
             $result = $db_table_training->fetchRow(
@@ -114,13 +134,28 @@ class TrainingController extends Zend_Controller_Action
             $training_model->completed = $result['completed'];
 
             $training_model->createTraining();
-            $this->view->oefeningen = $training_model->getExercises();
+
+            /*add model to session*/
+            $myNamespace = new Zend_Session_Namespace('active_training');
+            $myNamespace->model = $training_model;
+
+            $this->view->oefeningen = $training_model->getExercises("NORMAL");
             $this->view->training_type = $training_model->training_type;
 
             //getmodel
 
         }
 
+        /*check if request is post*/
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+            /*add finished training to model*/
+
+
+
+            }
+
+        }
     }
 
 

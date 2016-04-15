@@ -27,12 +27,6 @@ class Application_Model_ActiveTraining{
     private $exercise_list = array();
     private $exercise_done_list = array();
 
-
-
-    private $cur_exercise;
-
-
-
     public function __construct(array $options = null){
 
         $this->dbtable_training = new Application_Model_DbTable_Training();
@@ -120,6 +114,116 @@ class Application_Model_ActiveTraining{
         else{
             return $this->exercise_list;
         }
+
+    }
+
+    public function finished_exersice($oefening_id, $results){
+
+        //oefening_id = int
+        //results = array;
+
+        /*var_dump($results);*/
+
+        foreach($this->exercise_list as $exercise)
+        {
+            if($exercise['id'] == $oefening_id)
+            {
+                var_dump($exercise);
+                $cur_exercise = $exercise;
+                /*found the right one*/
+            }
+        }
+
+        if($this->training_type == 'cardio'){
+
+        }
+        elseif($this->training_type == 'kracht')
+        {
+
+            $db_table = new Application_Model_DbTable_FinishedKracht();
+
+            $kracht_results = $results;
+
+            $new_data = array(
+                "user_id" => Auth_AuthChecker::getInstance()->getId(),
+                "oefening_id" => $cur_exercise['id'],
+                "sets" => $cur_exercise['sets'],
+                "reps" => $cur_exercise['reps']
+            );
+
+            $counter = 1;
+            foreach($kracht_results as $result){
+
+                $new_data["set_$counter"] = $result;
+                $counter++;
+            }
+
+            /*ADD EXERCISE TO DONE LIST*/
+            array_push($this->exercise_done_list, $new_data);
+        }
+
+    }
+
+    public function finished_training(){
+        var_dump('training is finished');
+
+
+        /*save results*/
+        if($this->training_type == 'kracht')
+        {
+            foreach($this->exercise_done_list as $exercise){
+
+                $db_table = new Application_Model_DbTable_FinishedKracht();
+                $db_table->insert($exercise);
+
+            }
+        }
+        elseif($this->training_type == 'cardio'){
+
+            foreach($this->exercise_done_list as $exercise)
+            {
+                $db_table = new Application_Model_DbTable_CardioExercise();
+                $db_table->insert($exercise);
+            }
+        }
+
+        /*change stage of current training*/
+
+        if($this->cur_day == $this->training_days)
+        {
+            if($this->cur_week == $this->training_weeks)
+            {
+                /*completed*/
+                $this->completed = 1;
+            }
+            else{
+                $this->cur_week++;
+                $this->cur_day = 1;
+            }
+        }
+        else{
+            $this->cur_day++;
+        }
+
+
+
+
+        /*update training*/
+        $training_table = new Application_Model_DbTable_Training();
+
+        $data = array(
+            'cur_day' => $this->cur_day,
+            'cur_week' => $this->cur_week,
+            'completed' => $this->completed
+        );
+
+
+        $training_table->update($data, "id=".$this->training_id);
+
+        /*add points*/
+
+
+
 
     }
 }

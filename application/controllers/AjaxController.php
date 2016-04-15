@@ -134,4 +134,52 @@ class AjaxController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender(true);
 
     }
+
+
+    /*function to handle form input during*/
+    public function completeexerciseAction(){
+
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+                $params = ($request->getParams());
+                var_dump($params);
+
+                /*add new item to model */
+                /*get namespace*/
+                $myNamespace = new Zend_Session_Namespace('active_training');
+                ($myNamespace->model->finished_exersice($params['oefening_id'], $params['sets']));
+
+            }
+        }
+
+    }
+
+    public function completetrainingAction(){
+
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost()) {
+            if ($request->getPost()) {
+                /*$params = ($request->getParams());
+                var_dump($params);                */
+                $myNamespace = new Zend_Session_Namespace('active_training');
+                /*finish training*/
+                $myNamespace->model->finished_training();
+                /*unset session*/
+                Zend_Session::namespaceUnset('active_training');
+
+            }
+        }
+
+        /*redirect to home controller, index action*/
+
+        $this->_helper->redirector('index', 'index', null);
+
+    }
 }

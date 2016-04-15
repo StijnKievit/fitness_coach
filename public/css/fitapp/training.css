@@ -6,7 +6,7 @@
     text-align: center;
 }
 
-.training_container{
+.training_container, .training_message{
     background-color: #ce021b;
     color: #FFFFFF;
     width: calc(100% + 40px);
@@ -15,7 +15,8 @@
     padding: 20px;
 }
 
-.training_container .title{
+.training_container .title,
+.training_message .title{
     display: block;
     text-align: center;
     color: #FFFFFF;
@@ -23,7 +24,8 @@
     margin: 0 0 20px 0;
 }
 
-.training_container .sub_title{
+.training_container .sub_title,
+.training_message .sub_title{
     color: #d6d6d6;
     font-size: 4em;
     margin: -15px 0 20px 0;
@@ -44,6 +46,10 @@
     margin-top: 20px;
 }
 
+.training_container .main_button{
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
 
 .training_container .basic_form label{
     text-align: left;
@@ -76,10 +82,19 @@
 
 .training_container .icon_back{
     left: 20px;
-    top: 0;
+    top: 10px;
 }
 
 .training_container .icon_next{
     right: 20px;
-    top: 0;
+    top: 10px;
 }
+
+.training_message .main_button{
+
+    border: 1px solid #FFFFFF;
+    font-size: 4em;
+    color: #FFFFFF;
+
+}
+

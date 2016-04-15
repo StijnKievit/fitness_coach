@@ -16,141 +16,265 @@
         dag 2
     </h2>
 </div>
-
+<div class="training_message final_message">
+    <h1 class="title">Training afgerond!</h1>
+    <h2 class="sub_title">+100 pts.</h2>
+    <button class="main_button">Oke</button>
+</div>
+<div class="box_slider">
 <?php
+$counter = 0;
 foreach($this->oefeningen as $oefening):
 ?>
-<div class="training_container">
-    <div class="training_description">
-        <a class="icon_back" href="<?=$this->url(array(  'controller' => 'training',
-            'action' => 'index'), null, true)?>">" <img class="" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" alt="terug" >
-        </a>
-        <h2 class="title"><?=$oefening['name'] ?></h2>
-        <h3 class="sub_title"><?=$oefening['type'] ?></h3>
-        <a class="icon_next" href="<?=$this->url(array(  'controller' => 'training',
-            'action' => 'index'), null, true)?>">" <img class="" src="<?=$this->baseUrl('img/icons/next_arrow_icon.png') ?>" alt="volgende" >
-        </a>
-    </div>
-    <?php
-        if($this->training_type == 'kracht'):
-    ?>
+    <div class="training_container">
+        <div class="training_description">
+            <img class="icon_back" src="<?=$this->baseUrl('img/icons/back_arrow_icon.png') ?>" alt="terug" >
+            <h2 class="title"><?=$oefening['name'] ?></h2>
+            <h3 class="sub_title"><?=$oefening['type'] ?></h3>
+            <img class="icon_next" src="<?=$this->baseUrl('img/icons/next_arrow_icon.png') ?>" alt="volgende" >
+        </div>
+        <?php
+            if($this->training_type == 'kracht'):
+        ?>
 
-    <!--if type = kracht-->
-            <p class="instruction">
-                <span><?=$oefening['reps'] ?></span> herhalingen voor <span><?=$oefening['sets'] ?></span> sets.
-            </p>
+        <!--if type = kracht-->
+                <p class="instruction">
+                    <span><?=$oefening['reps'] ?></span> herhalingen voor <span><?=$oefening['sets'] ?></span> sets.
+                </p>
 
-            <form class="basic_form">
-                <?php
-                $amount_of_sets = $oefening['sets'];
-
-                for ($x = 1; $x <= $amount_of_sets; $x++) {
-                    ?>
-                    <label>
-                        set <?=$x ?>:
-                        <input type="number" name="set<?=$x?>">
-                    </label>
-
+                <form class="basic_form" method="post" action="">
+                    <input type="hidden" value="<?=$oefening['id'] ?>" name="oefening_id">
+                    <input type="hidden" value="<?=$oefening['type'] ?>" name="oefening_type">
+                    <input type="hidden" value="<?=$this->training_type ?>" name="training_type">
                     <?php
+                    $amount_of_sets = $oefening['sets'];
+
+                    for ($x = 1; $x <= $amount_of_sets; $x++) {
+                        ?>
+                        <label>
+                            set <?=$x ?>:
+                            <!--<input type="number" name="set<?/*=$x*/?>">-->
+                            <input type="number" name="sets[]">
+                        </label>
+
+                        <?php
+                    }
+                    ?>
+                    <input type="submit" value="Opslaan" class="main_button">
+                </form>
+
+
+
+        <?php
+                endif;
+            if($this->training_type == 'cardio'):
+
+
+                if($oefening['type'] == 'afstand')
+                {
+        ?>
+                    <p class="instruction">
+                        <span><?=$oefening['name']?></span> voor <span><?=$oefening['distance'] ?></span> meter.
+                    </p>
+                    <form class="basic_form" method="post" action="">
+                        <input type="hidden" value="<?=$oefening['id'] ?>" name="oefening_id">
+                        <input type="hidden" value="<?=$oefening['type'] ?>" name="oefening_type">
+                        <input type="hidden" value="<?=$this->training_type ?>" name="training_type">
+                        <label>
+                            Minuten:
+                            <input type="number" name="time" />
+                        </label>
+                        <input type="hidden" value="<?=$oefening['distance'] ?>" name="distance">
+                        <?php
+
+
+                        ?>
+                        <input type="submit" value="Opslaan" class="main_button">
+                    </form>
+        <?php
+                }
+                if($oefening['type'] == 'tijd')
+                {
+        ?>
+                    <p class="instruction">
+                        <span><?=$oefening['name'] ?></span> voor <span><?=$oefening['time'] ?></span> minuten.
+                    </p>
+                    <form class="basic_form" method="post" action="">
+                        <input type="hidden" value="<?=$oefening['id'] ?>" name="oefening_id">
+                        <input type="hidden" value="<?=$oefening['type'] ?>" name="oefening_type">
+                        <input type="hidden" value="<?=$this->training_type ?>" name="training_type">
+                        <label>
+                            Meters:
+                            <input type="number" name="distance" />
+                        </label>
+                        <input type="hidden" value="<?=$oefening['time'] ?>" name="time">
+
+                        <?php
+
+
+                        ?>
+                        <input type="submit" value="Opslaan" class="main_button">
+                    </form>
+        <?php
                 }
                 ?>
-                <input type="submit" value="Opslaan" class="main_button">
-            </form>
 
+        <!--if type = cardio-->
 
-
-    <?php
+        <?php
             endif;
-        if($this->training_type == 'cardio'):
+        ?>
+    </div>
 
-
-            if($oefening['type'] == 'afstand')
-            {
-    ?>
-                <p class="instruction">
-                    <span><?=$oefening['name']?></span> voor <span><?=$oefening['distance'] ?></span> meter.
-                </p>
-                <form class="basic_form">
-                    <label>
-                        Minuten:
-                        <input type="number" />
-                    </label>
-                    <input type="hidden" value="<?=$oefening['distance'] ?>" name="distance">
-                    <?php
-
-
-                    ?>
-                    <input type="submit" value="Opslaan" class="main_button">
-                </form>
-    <?php
-            }
-            if($oefening['type'] == 'tijd')
-            {
-    ?>
-                <p class="instruction">
-                    <span><?=$oefening['name'] ?></span> voor <span><?=$oefening['time'] ?></span> minuten.
-                </p>
-                <form class="basic_form">
-                    <label>
-                        Meters:
-                        <input type="number" />
-                    </label>
-                    <input type="hidden" value="<?=$oefening['time'] ?>" name="time">
-
-                    <?php
-
-
-                    ?>
-                    <input type="submit" value="Opslaan" class="main_button">
-                </form>
-    <?php
-            }
-            ?>
-
-    <!--if type = cardio-->
-
-    <?php
-        endif;
-    ?>
-</div>
 
 <?php
+$counter++;
 endforeach;
 ?>
+</div>
 
-<!--<div class="training_container">
-    <div class="training_description">
-        <a class="icon_back" href="<?/*=$this->url(array(  'controller' => 'training',
-            'action' => 'index'), null, true)*/?>">" <img class="" src="<?/*=$this->baseUrl('img/icons/back_arrow_icon.png') */?>" alt="terug" >
-        </a>
-        <h2 class="title">Squats</h2>
-        <h3 class="sub_title">Benen & billen</h3>
-        <a class="icon_next" href="<?/*=$this->url(array(  'controller' => 'training',
-            'action' => 'index'), null, true)*/?>">" <img class="" src="<?/*=$this->baseUrl('img/icons/next_arrow_icon.png') */?>" alt="volgende" >
-        </a>
-    </div>
-    <p class="instruction">
-        <span>20</span> herhalingen voor <span>2</span> sets.
-    </p>
-    <form class="basic_form">
-        <?php
-/*        $amount_of_sets = 3;
-
-        for ($x = 1; $x <= $amount_of_sets; $x++) {
+<script>
+    /*this script is used to slide trough the different excercises*/
 
 
-        */?>
-        <label>
-            set <?/*=$x */?>:
-            <input type="number" name="set<?/*=$x*/?>">
-        </label>
+    var slider_box = $('.box_slider');
+    var items = slider_box.find( $('.training_container'));
+    var final_message = $('.final_message');
+    var cur_item = 0;
+    final_message.hide();
 
-        <?php
-/*        }
-        */?>
-        <input type="submit" value="Opslaan" class="main_button">
-    </form>
-</div>-->
+    start();
 
+    function init(){
+        console.log('initialize stuff');
+
+        slider_box = $('.box_slider');
+        items = slider_box.find( $('.training_container'));
+        cur_item = 0;
+
+        console.log(items.length);
+
+        if(items.length >= 1)
+        {
+
+            if(items.length == 1)
+            {
+                console.log('hide arrows');
+                start();
+                hide_arrows();
+            }
+            else{
+                start();
+            }
+
+        }
+        else {
+            final_message.show();
+        }
+
+
+    }
+
+    function start(){
+
+        console.log('start stuff');
+        items.hide();
+        $(items[cur_item]).show();
+    }
+
+    function back_action(){
+        if(cur_item > 0){
+            cur_item--;
+        }
+        else {
+            cur_item = (items.length - 1)
+        }
+/*
+        console.log(cur_item);
+*/
+        start();
+    }
+
+    function next_action(){
+        if(cur_item < (items.length - 1))
+        {
+            cur_item++
+        }
+        else {
+            cur_item = 0;
+        }
+/*
+        console.log(cur_item);
+*/
+        start();
+    }
+
+    /*action*/
+    var next_button = $('.icon_next');
+    var back_button = $('.icon_back');
+
+    next_button.click(function(e){
+       next_action();
+    });
+    back_button.click(function(e){
+       back_action();
+    });
+
+    function hide_arrows(){
+
+        next_button = $('.icon_next');
+        back_button = $('.icon_back');
+
+        next_button.hide();
+        back_button.hide();
+    }
+    function show_arrows(){
+        next_button.show();
+        back_button.show();
+    }
+
+
+
+    /*finsihed message is clicked*/
+
+    final_message.find('button').click(function(e){
+
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'completetraining'))?>", 'finished', function( return_data ) {
+
+
+            /*this works !!!*/
+            window.location.href = '<?=$this->url(array(  'controller' => 'index',
+            'action' => 'index')) ?> ';
+
+        })
+
+        e.preventDefault();
+    });
+
+</script>
+<script>
+    $("form").submit(function(e){
+
+
+        var form = $(this);
+        var data = form.serialize();
+        console.log(data);
+
+        /*post to the right location*/
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'completeexercise'))?>", data, function( return_data ) {
+
+            /*remove finished training from the list*/
+            form.parent(".training_container").remove();
+
+            /*go to next exercise*/
+            init();
+        })
+
+        e.preventDefault();
+    });
+
+</script>
 
 
