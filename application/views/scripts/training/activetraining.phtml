@@ -242,11 +242,9 @@ endforeach;
         $.post( "<?= $this->url(array(  'controller' => 'ajax',
             'action' => 'completetraining'))?>", 'finished', function( return_data ) {
 
-
             /*this works !!!*/
             window.location.href = '<?=$this->url(array(  'controller' => 'index',
             'action' => 'index')) ?> ';
-
         })
 
         e.preventDefault();

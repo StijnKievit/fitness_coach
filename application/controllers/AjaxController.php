@@ -146,16 +146,28 @@ class AjaxController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             if ($request->getPost()) {
                 $params = ($request->getParams());
-                var_dump($params);
+                /*var_dump($params);*/
 
                 /*add new item to model */
                 /*get namespace*/
-                $myNamespace = new Zend_Session_Namespace('active_training');
-                ($myNamespace->model->finished_exersice($params['oefening_id'], $params['sets']));
+                if($params['training_type'] == 'kracht')
+                {
+                    $myNamespace = new Zend_Session_Namespace('active_training');
+                    ($myNamespace->model->finished_exersice($params['oefening_id'], $params['sets']));
+                }
+                if($params['training_type'] == "cardio")
+                {
+                    $data = array(
+                        "time" => $params['time'],
+                        "distance" => $params['distance']
+                    );
+                    $myNamespace = new Zend_Session_Namespace('active_training');
+                    ($myNamespace->model->finished_exersice($params['oefening_id'], $data));
+                }
+
 
             }
         }
-
     }
 
     public function completetrainingAction(){
@@ -181,5 +193,31 @@ class AjaxController extends Zend_Controller_Action
 
         $this->_helper->redirector('index', 'index', null);
 
+    }
+
+    public function setcurtrainingAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost())
+        {
+            $user_model = new Application_Model_User();
+            $user_model->setCurrentTraining($request->getParams()['id']);
+        }
+    }
+
+    public function removetrainingAction(){
+
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost())
+        {
+            $id = $request->getParams()['id'];
+            $db_model = new Application_Model_DbTable_Training();
+            $db_model->delete("id = " . $id);
+        }
     }
 }

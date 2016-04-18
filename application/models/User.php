@@ -21,9 +21,12 @@ class Application_Model_User
     private $cardio_points;
     private $kracht_points;
 
-    private $cardio_lv;
+ /*   private $cardio_lv;
     private $kracht_lv;
-    private $fit_lv;
+    private $fit_lv;*/
+
+    private $fit_constant = .075;
+    private $sub_constant = .1;
 
     public function __construct()
     {
@@ -53,6 +56,10 @@ class Application_Model_User
 
         $this->db_table->update($data, "id=".$this->user_id);
 
+    }
+
+    public function getCurrentTraining(){
+        return $this->cur_training;
     }
 
     public function addPoints ($type, $value)
@@ -100,47 +107,68 @@ class Application_Model_User
         return $this->kracht_points;
     }
 
-    public function getCardioLevel(){
+    public function getAllPoints(){
+        return (int)$this->kracht_points + (int)$this->cardio_points;
+    }
 
+    public function getCardioLevel(){
         /*calc level*/
+        return $this->calcCardioLv();
     }
     public function getKrachtLevel(){
         /*calc level*/
+        return $this->calcKrachtLv();
     }
     public function getFitLevel(){
         /*calc level*/
+        return $this->calcFitLv();
     }
 
-    public function calc(){
-        $user_total_xp = $this->cardio_points + $this->kracht_points;
+    public function getCardioFactor(){
+        return $this->cardio_points / pow(($this->calcCardioLv() + 1) / $this->sub_constant, 2);
+    }
+    public function getKrachtFactor(){
+        return $this->kracht_points / pow(($this->calcKrachtLv() + 1) / $this->sub_constant, 2);
+    }
+    public function getFitFactor(){
+        return $this->getAllPoints() / pow(($this->calcFitLv() + 1) / $this->fit_constant, 2);
+    }
 
-        $fit_constant = .075;
-        $sub_constant = .1;
-        $fitheidlv =  floor($fit_constant * sqrt($user_total_xp));
+    private function calcKrachtLv(){
+        $sub_constant = $this->sub_constant;
         $krachtlv = floor($sub_constant * sqrt($this->kracht_points));
+        return $krachtlv;
+    }
+    private function calcCardioLv(){
+        $sub_constant = $this->sub_constant;
         $cardiolv = floor($sub_constant * sqrt($this->cardio_points));
+        return $cardiolv;
+    }
+    private function calcFitLv(){
+        $fit_constant = $this->fit_constant;
+        $fitheidlv =  floor($fit_constant * sqrt($this->getAllPoints()));
+        return $fitheidlv;
+    }
 
-        $fit_factor = $user_total_xp / pow(($fitheidlv + 1) / $fit_constant, 2);
-        $cardio_factor = $this->cardio_points / pow(($cardiolv + 1) / $sub_constant, 2);
-        $kracht_factor = $this->kracht_points / pow(($krachtlv + 1) / $sub_constant, 2);
-
+    public function getLevelData(){
 
         $valuearray = array(
             "fitheid" => array(
-                "lv" => $fitheidlv,
-                "fact" => $fit_factor
+                "lv" => $this->getFitLevel(),
+                "fact" => $this->getFitFactor()
             ),
             "cardio" => array(
-                "lv" => $cardiolv,
-                "fact" => $cardio_factor
+                "lv" => $this->getCardioLevel(),
+                "fact" => $this->getCardioFactor()
             ),
             "kracht" => array(
-                "lv" => $krachtlv,
-                "fact" => $kracht_factor
+                "lv" => $this->getKrachtLevel(),
+                "fact" => $this->getKrachtFactor()
             )
         );
 
         return $valuearray;
+
     }
 
 

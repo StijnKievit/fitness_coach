@@ -18,6 +18,20 @@ class TrainingController extends Zend_Controller_Action
     /*dashboard*/
     public function indexAction()
     {
+        /*select active training and push it to the view*/
+        $user_model = new Application_Model_User();
+        $training_model = new Application_Model_Training();
+
+        if($user_model->getCurrentTraining() != null)
+        {
+            $training_model->setTraining($user_model->getCurrentTraining());
+
+            $this->view->cur_training = $training_model;
+
+        }
+        else{
+            $this->view->cur_training = null;
+        }
 
 
 
@@ -113,7 +127,9 @@ class TrainingController extends Zend_Controller_Action
         else{
 
 /*            $training_id = $params['training_id'];*/
-            $training_id = 70;
+            $user_table = new Application_Model_User();
+            $training_id = $user_table->getCurrentTraining();
+
 
             $db_table_training = new Application_Model_DbTable_Training();
             $result = $db_table_training->fetchRow(
@@ -132,6 +148,7 @@ class TrainingController extends Zend_Controller_Action
             $training_model->cur_day = $result['cur_day'];
             $training_model->cur_week = $result['cur_week'];
             $training_model->completed = $result['completed'];
+            $training_model->count_training_done = $result['training_done'];
 
             $training_model->createTraining();
 
@@ -156,6 +173,19 @@ class TrainingController extends Zend_Controller_Action
             }
 
         }
+    }
+
+    public function trainingstatsAction(){
+
+        $user_table = new Application_Model_User();
+        $training_id = $user_table->getCurrentTraining();
+
+        $training_model = new Application_Model_Training();
+        $training_model->setTraining($training_id);
+
+        $this->view->type_of_training = $training_model->type_of_training;
+        $this->view->completed_exercises = $training_model->getcompletedExercises();
+
     }
 
 

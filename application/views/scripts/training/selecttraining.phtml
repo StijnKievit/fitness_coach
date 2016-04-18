@@ -53,9 +53,9 @@
                     <?=$training['name'] ?>
                 </span>
                 <div class="item_selection">
-                    <a href="" class="">Selecteren</a>
-                    <a href="" class="">Statistieken</a>
-                    <a href="" class="">Verwijderen</a>
+                    <a class="select_training">Selecteren</a>
+                    <a class="training_stats">Statistieken</a>
+                    <a class="remove_training">Verwijderen</a>
                 </div>
 
 
@@ -87,6 +87,51 @@
         $(this).toggleClass('active');
         $(this).children(".item_selection").slideToggle();
     });
+
+    var select_buttons = $('.select_training');
+    var remove_buttons = $('.remove_training');
+
+    select_buttons.click(function(e){
+        var clicked_item = ($(this));
+        var parent_item = $(this).parents('li');
+        var id = ($(parent_item).attr('data-id'));
+        selectTraining(id);
+        e.preventDefault();
+    });
+
+    remove_buttons.click(function(e){
+        var clicked_item = ($(this));
+        var parent_item = $(this).parents('li');
+        var id = ($(parent_item).attr('data-id'));
+        removeTraining(id);
+        parent_item.remove();
+        e.preventDefault();
+    });
+
+    function selectTraining(id){
+
+        /*do post*/
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'setcurtraining'))?>", "id="+id, function( data )
+        {
+
+            console.log('training selected');
+            window.location.href = "<?=$this->url(array(  'controller' => 'training',
+                'action' => 'index')) ?>";
+
+        });
+
+    }
+    function removeTraining(id)
+    {
+        alert('Weet je zeker dat je deze training wilt verwijderen?');
+        /*do post*/
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'removetraining'))?>", "id="+id, function( data )
+        {
+            console.log('training removed');
+        });
+    }
 
 
 </script>

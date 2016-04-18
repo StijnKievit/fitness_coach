@@ -13,7 +13,9 @@ class Application_Model_ActiveTraining{
     private $dbtable_cardioexe;
     private $dbtable_krachtexe;
     private $training_id;
+    private $user_model;
 
+    public $count_training_done;
 
     public $training_type;
     public  $training_name;
@@ -32,6 +34,7 @@ class Application_Model_ActiveTraining{
         $this->dbtable_training = new Application_Model_DbTable_Training();
         $this->dbtable_cardioexe = new Application_Model_DbTable_CardioExercise();
         $this->dbtable_krachtexe = new Application_Model_DbTable_KrachtExercise();
+        $this->user_model = new Application_Model_User();
 
 
     }
@@ -128,18 +131,35 @@ class Application_Model_ActiveTraining{
         {
             if($exercise['id'] == $oefening_id)
             {
-                var_dump($exercise);
+                /*var_dump($exercise);*/
                 $cur_exercise = $exercise;
                 /*found the right one*/
             }
         }
 
-        if($this->training_type == 'cardio'){
+        if($this->training_type == 'cardio')
+        {
+            $db_table = new Application_Model_DbTable_FinishedCardio();
 
+            $cardio_results = $results;
+
+            $new_data = array(
+
+                "user_id" => Auth_AuthChecker::getInstance()->getId(),
+                "oefening_id" => $cur_exercise['id'],
+                "training_id" => $this->training_id,
+                "time" => $cardio_results['time'],
+                "distance" => $cardio_results['distance']
+            );
+
+            $this->user_model->addPoints('cardio', ( $cardio_results['distance'] / ($cardio_results['time'] * 60) ) * 100 );
+
+            var_dump($new_data);
+
+            array_push($this->exercise_done_list, $new_data);
         }
         elseif($this->training_type == 'kracht')
         {
-
             $db_table = new Application_Model_DbTable_FinishedKracht();
 
             $kracht_results = $results;
@@ -148,7 +168,8 @@ class Application_Model_ActiveTraining{
                 "user_id" => Auth_AuthChecker::getInstance()->getId(),
                 "oefening_id" => $cur_exercise['id'],
                 "sets" => $cur_exercise['sets'],
-                "reps" => $cur_exercise['reps']
+                "reps" => $cur_exercise['reps'],
+                "training_id" => $this->training_id
             );
 
             $counter = 1;
@@ -160,13 +181,19 @@ class Application_Model_ActiveTraining{
 
             /*ADD EXERCISE TO DONE LIST*/
             array_push($this->exercise_done_list, $new_data);
-        }
 
+            /*add points to user for weights done*/
+            $total_weights = 0;
+            foreach($kracht_results as $result)
+            {
+                $total_weights+= $result;
+            }
+
+            $this->user_model->addPoints('kracht', ($total_weights * $cur_exercise['sets'] * $cur_exercise['reps']) * .01 );
+        }
     }
 
     public function finished_training(){
-        var_dump('training is finished');
-
 
         /*save results*/
         if($this->training_type == 'kracht')
@@ -182,7 +209,8 @@ class Application_Model_ActiveTraining{
 
             foreach($this->exercise_done_list as $exercise)
             {
-                $db_table = new Application_Model_DbTable_CardioExercise();
+
+                $db_table = new Application_Model_DbTable_FinishedCardio();
                 $db_table->insert($exercise);
             }
         }
@@ -201,9 +229,12 @@ class Application_Model_ActiveTraining{
                 $this->cur_day = 1;
             }
         }
-        else{
+        else
+        {
             $this->cur_day++;
         }
+
+        $this->count_training_done++;
 
 
 
@@ -214,17 +245,15 @@ class Application_Model_ActiveTraining{
         $data = array(
             'cur_day' => $this->cur_day,
             'cur_week' => $this->cur_week,
-            'completed' => $this->completed
+            'completed' => $this->completed,
+            'training_done' => $this->count_training_done
         );
 
 
         $training_table->update($data, "id=".$this->training_id);
 
         /*add points*/
-
-
-
-
+        $this->user_model->addPoints($this->training_type, 100 * $this->training_weeks);
     }
 }
 

@@ -1,22 +1,50 @@
+<?php
+
+$training_model = $this->cur_training;
+
+/*var_dump($training_model->training_id);*/
+
+?>
+
 <div class="main_section">
     <h1 class="main_title">Huidige training</h1>
 <!--    <p class="sub_title">Mijn eerste training</p>
 --> <div class="content_box_red">
-        <h2 class="sub_title">Mijn eerst training</h2>
+
+        <?php if(is_null($training_model)): ?>
+        <h2 class="sub_title">Geen training geselecteerd</h2>
+            <a href="<?=$this->url(array(  'controller' => 'training',
+                'action' => 'selecttraining')) ?>" class="main_button">Training selecteren</a>
+        <?php
+        endif;
+        if(!is_null($training_model)):
+        ?>
+        <h2 class="sub_title"><?=$training_model->name  ?></h2>
         <ul class="spec_list">
-            <li>Aantal training's dagen: <span>1</span></li>
-            <li>Huidige dag: <span>1</span></li>
-            <li>Oefeningen: <span>0/12</span></li>
-            <li>Progressie: <span>60%</span></li>
+           <!-- <li>Aantal training's dagen: <span><?/*=$training_model->training_days */?></span></li>
+            <li>Huidige dag: <span><?/*=$training_model->cur_day */?></span></li>
+            <li>Aantal training's weken: <span><?/*=$training_model->training_weeks */?></span></li>
+            <li>Huidige week: <span><?/*=$training_model->cur_week */?></span></li>
+            <li>Oefeningen: <span><?/*=$training_model->countExercises() */?></span></li>
+            <li>Progressie: <span><?/*=$training_model->getProgress() */?>%</span></li>-->
+            <li>Training's dagen: <span><?=$training_model->training_days ?>/<?=$training_model->cur_day?></span></li>
+            <li>Training's weken: <span><?=$training_model->training_weeks ?>/<?=$training_model->cur_week?></span></li>
+            <li>Aantal oefeningen: <span><?=$training_model->countExercises() ?></span></li>
+            <li>Progressie: <span><?= ($training_model->getProgress() == 100) ? 'Afgerond' : $training_model->getProgress().'%' ?></span></li>
         </ul>
-        <a href="#" class="main_button">Start training</a>
+        <?php if($training_model->getProgress() < 100) :?>
+        <a href="<?=$this->url(array(  'controller' => 'training',
+            'action' => 'activetraining')) ?>" class="main_button">Start training</a>
+        <?php endif;
+        endif;
+        ?>
     </div>
     <!--<div class="more-arrow"></div>-->
-
 </div>
 <div class="selection_container">
     <ul>
-        <li><a href="#" class="formlink">Statistieken</a></li>
+        <li><a href="<?= $this->url(array(  'controller' => 'training',
+                'action' => 'trainingstats'))?>" class="formlink">Statistieken</a></li>
         <li><a href="<?= $this->url(array(  'controller' => 'training',
                 'action' => 'addtraining'))?>" class="formlink">Training toevoegen</a></li>
         <li><a href="<?= $this->url(array(  'controller' => 'training',
