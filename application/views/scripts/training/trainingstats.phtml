@@ -18,10 +18,11 @@ $model = $this->model;
             <?php
                 if($model->training_type == 'kracht'):
             ?>
+            <h3 class="sub_title">Training's dag: <span><?=$exercise['training_day'] ?></span></h3>
             <h3 class="sub_title">Sets: <span><?=$exercise['sets'] ?></span></h3>
             <h3 class="sub_title">Herhalingen: <span><?=$exercise['reps'] ?></span></h3>
             <div class="table_container">
-                <table class="result_table">
+                <table class="result_table <?= ($exercise['sets'] > 4 )? 'extend_result_table' : '' ?>">
                     <thead>
                         <tr>
                             <th>Dag</th>
@@ -65,7 +66,7 @@ $model = $this->model;
                 endif;
                 if($model->training_type == 'cardio'):
             ?>
-
+                    <h3 class="sub_title">Training's dag: <span><?=$exercise['training_day'] ?></span></h3>
                     <?php
                     if($exercise['type'] == 'tijd'):
                     ?>
@@ -98,6 +99,7 @@ $model = $this->model;
                                         }
                                         ?>
                                     </th>
+                                    <th>Gemiddelde snelheid (km/h)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,6 +119,10 @@ $model = $this->model;
                                         echo $result['time'];
                                     }
                                     ?>
+                                    </td>
+                                    <td>
+                                        <!--time is in minutes so convert to seconds-->
+                                        <?= round((($result['distance'] / ( $result['time'] * 60 ) ) * 3.6), 1) ?>
                                     </td>
                                 </tr>
 

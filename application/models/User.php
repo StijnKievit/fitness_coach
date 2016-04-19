@@ -40,6 +40,7 @@ class Application_Model_User
         );
 
         $this->user_email = $user['email'];
+        $this->user_name = $user['username'];
         $this->cardio_points = $user['cardio_ptn'];
         $this->kracht_points = $user['kracht_ptn'];
         $this->cur_training = $user['current_training'];

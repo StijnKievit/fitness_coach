@@ -20,19 +20,19 @@
     display: block;
     text-align: center;
     color: #FFFFFF;
-    font-size: 5em;
+    font-size: 4em;
     margin: 0 0 20px 0;
 }
 
 .training_container .sub_title,
 .training_message .sub_title{
     color: #d6d6d6;
-    font-size: 4em;
+    font-size: 3em;
     margin: -15px 0 20px 0;
 }
 .training_container .instruction{
     color: #d6d6d6;
-    font-size: 4em;
+    font-size: 3em;
 
 }
 
@@ -107,6 +107,7 @@
 }
 
 .result_table{
+    font-weight: lighter;
 
     min-width: 100%;
     max-width: 200%;
@@ -114,20 +115,27 @@
 
 }
 
+.extend_result_table{
+    width: 200%;
+}
+
+
 .result_table th, .result_table td{
     padding-bottom: 10px;
+
 }
 
 .result_table th{
-    font-size: 3.2em;
+    font-size: 2.2em;
     padding: 5px;
     padding-left: 0;
     text-align: left;
+    font-weight: normal;
 
 }
 
 .result_table td{
-    font-size: 2.8em;
+    font-size:  1.8em;
     text-align: left;
 
     padding: 5px;

@@ -166,8 +166,9 @@ body{
     color: #8f8f8f;
 }
 .sub_title{
-    font-size: 3.5em;
+    font-size: 3em;
     color: #ce021b;
+    font-weight: normal;
     /*
     text-align: center;
     */
@@ -206,7 +207,7 @@ p{
     color: #efefef;
     text-align: center;
     width: 100%;
-    font-size: 6em;
+    font-size: 4em;
     display: block;
     text-decoration: none;
     padding: 10px 0;
@@ -233,7 +234,7 @@ p{
 .spec_list{
     padding: 0;
     list-style: none;
-    font-size: 3em;
+    font-size: 2.5em;
 }
 .spec_list li{
     padding: 0;
@@ -488,4 +489,132 @@ h2.sub_title{
 
 .basic_form{
     margin-bottom: 20px;
+}
+
+/*challenge page*/
+
+.main_button_cont{
+
+    margin-top: 20px;
+    background-color: #ce021b;
+    color: #FFFFFF;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+}
+.main_button_cont:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.main_button_cont span {
+    float: left;
+    width: 80%;
+    font-size: 2.5em;
+    line-height: 40px;
+
+}
+
+
+.main_button_cont img{
+    display: block;
+    float: left;
+    height: 100%;
+    width: 20%;
+}
+
+.challenge{
+    width: 100%;
+    background-color: #efefef;
+}
+
+.challenge .challenge_description{
+
+}
+
+.challenge .challenge_description:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.challenge_description > div {
+   /* width: 60%;
+    background-color: #00AAE7;
+    display: block;
+    float: left;
+    padding: 10px;*/
+}
+.challenge_description > div:last-child{
+    /*width: 40%;
+    float: left;
+    padding: 10px;*/
+}
+
+.challenge_description > div {
+    padding: 10px;
+}
+.challenge_description > div:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.challenge_description > div h3{
+    display: block;
+    width: 70%;
+    margin: 0;
+    float: left;
+}
+
+.challenge_description > div a{
+    float: left;
+    display: block;
+    width: 30%;
+    height: 100%;
+    background-color: #ce021b;
+    color: #FFFFFF;
+    text-align: center;
+
+}
+.challenge_description p{
+    width: 100%;
+    display: block;
+    padding: 10px;
+}
+
+.challenge .challenge_details{
+    display: block;
+    padding: 10px;
+}
+
+.challenge_details ul.challenge_list{
+    font-size: .75em;
+    padding: 0;
+}
+
+ul.challenge_list li{
+    padding: 0;
+    margin: 0;
+
+}
+
+ul.challenge_list li span{
+    padding: 0;
+    display: inline;
+    text-align: right;
+    font-size: .8em;
+}
+
+
+.align_center{
+    text-align: center;
+}
+
+.gray-out{
+    background-color: #BBBBBB;
+    color: #FFFFFF;
 }

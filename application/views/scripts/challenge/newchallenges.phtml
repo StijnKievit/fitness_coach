@@ -1,0 +1,48 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: stijn
+ * Date: 19-4-2016
+ * Time: 12:50
+ */
+
+$challenges = $this->challenges;
+
+?>
+<div class="main_section">
+    <h1 class="main_title align_left">Nieuwe uitdagingen</h1>
+    <ul class="basic_list">
+        <li>
+            <?php
+            $counter = 1;
+            foreach($challenges as $challenge):
+            ?>
+                <span>#<?=$counter ?></span>
+                <div class="challenge">
+                    <div class="challenge_description">
+                        <div>
+                            <h3><?=$challenge['name'] ?></h3>
+                            <a class="add_challenge">
+                                Accepteer
+                            </a>
+                        </div>
+                        <p><?=$challenge['description'] ?></p>
+
+                    </div>
+                    <div class="challenge_details">
+                        <ul class="challenge_list">
+                            <li>Training: <span><?=$challenge['type_of_training'] ?></span></li>
+                            <li>Type: <span><?=$challenge['type'] ?></span></li>
+                            <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                            <li>Punten: <span><?=$challenge['value'] ?></span></li>
+                        </ul>
+                    </div>
+                </div>
+            <?php
+            $counter++;
+            endforeach;
+            ?>
+
+
+
+</div>

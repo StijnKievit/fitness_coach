@@ -22,5 +22,23 @@ class ChallengeController extends Zend_Controller_Action
 
     }
 
+    public function statsAction(){
+
+    }
+
+    public function newchallengesAction(){
+
+        $db_model = new Application_Model_DbTable_Challenge();
+
+        $challenges = $db_model->fetchAll($db_model->select()
+        ->order('id DESC')
+        ->limit(5, 0)
+
+        );
+
+        $this->view->challenges = $challenges;
+
+    }
+
 }
 

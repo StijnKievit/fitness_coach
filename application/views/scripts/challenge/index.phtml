@@ -1,0 +1,19 @@
+<div class="main_section">
+    <h1 class="main_title align_left">Prestaties</h1>
+
+    <a href="<?= $this->url(array(  'controller' => 'challenge',
+        'action' => 'stats'))?>" class="main_button_cont">
+        <span>Mijn statistieken</span><img class="icon_next" src="<?=$this->baseUrl('img/icons/next_arrow_icon2.png') ?>" alt=">" />
+    </a>
+    <a class="main_button_cont" href="<?= $this->url(array(  'controller' => 'challenge',
+        'action' => 'newchallenges'))?>">
+        <span>Nieuwe uitdagingen</span><img class="icon_next" src="<?=$this->baseUrl('img/icons/next_arrow_icon2.png') ?>" alt=">" />
+    </a>
+    <a class="main_button_cont gray-out" >
+        <span>Zoek een uitdaging</span><img class="icon_next" src="<?=$this->baseUrl('img/icons/next_arrow_icon2.png') ?>" alt=">" />
+    </a>
+    <a class="main_button_cont" href="<?= $this->url(array(  'controller' => 'challenge',
+        'action' => 'mychallenges'))?>">
+        <span>Mijn uitdagingen</span><img class="icon_next" src="<?=$this->baseUrl('img/icons/next_arrow_icon2.png') ?>" alt=">" />
+    </a>
+</div>

@@ -45,7 +45,7 @@ class Application_Model_TrainingStats
             $db_exercise_table = new Application_Model_DbTable_KrachtExercise();
         }
 
-        $this->exercises = $db_exercise_table->fetchAll($db_exercise_table->select()->where('training_id = ?', $this->training_id) );
+        $this->exercises = $db_exercise_table->fetchAll($db_exercise_table->select()->where('training_id = ?', $this->training_id)->order('type ASC') );
 
         return $this->exercises;
 
