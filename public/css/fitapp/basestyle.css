@@ -1,5 +1,6 @@
 html{
-    font-family: "Lato Light";
+    font-family: 'Yanone Kaffeesatz',"Righteous", "Lato Light";
+    font-weight: 400;
 }
 html *{
     box-sizing: border-box;
@@ -167,7 +168,10 @@ body{
 .sub_title{
     font-size: 3.5em;
     color: #ce021b;
+    /*
     text-align: center;
+    */
+    text-align: left;
 }
 
 .main_title span,
@@ -233,6 +237,7 @@ p{
 }
 .spec_list li{
     padding: 0;
+    margin-bottom: 5px;
 }
 
 .spec_list span{
@@ -471,4 +476,16 @@ h2.sub_title{
 
 .newsection{
     margin-top: 20px;
+}
+
+.no_marg_bot{
+    margin-bottom: -10px;
+}
+
+.align_left{
+    text-align: left!important;
+}
+
+.basic_form{
+    margin-bottom: 20px;
 }

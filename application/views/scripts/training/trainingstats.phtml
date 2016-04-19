@@ -1,14 +1,149 @@
+<?php
+$model = $this->model;
+?>
 
 
-
-<div class="main_section">
-    <h1 class="main_title">Training statistieken</h1>
+<div class="main_section no_marg_bot">
+    <h1 class="align_left main_title">Training statistieken</h1>
     <!--    <p class="sub_title">Mijn eerste training</p>
     -->
-    <div class="content_box_red">
-        <h2 class="sub_title">trainingnaam</h2>
-        <p>resultaten per oefening moeten hier komen swipe links en rechts voor opties</p>
+    <?php
+    foreach($model->getExercises() as $exercise):
+    ?>
+    <div class="stats_container">
+        <h2 class="sub_title"><?=$exercise['name'] ?></h2>
+
+        <div class="content_box_red result_box">
+
+            <?php
+                if($model->training_type == 'kracht'):
+            ?>
+            <h3 class="sub_title">Sets: <span><?=$exercise['sets'] ?></span></h3>
+            <h3 class="sub_title">Herhalingen: <span><?=$exercise['reps'] ?></span></h3>
+            <div class="table_container">
+                <table class="result_table">
+                    <thead>
+                        <tr>
+                            <th>Dag</th>
+
+                            <?php
+                            for ($i = 1; $i <= $exercise['sets']; $i++) {
+                                ?>
+                                <th>Set <?=$i ?></th>
+                                <?php
+                            }
+                            ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $counter = 1;
+                            foreach($model->getResults($exercise['id'])  as $result):
+                        ?>
+                           <tr>
+                               <td><?=$counter ?></td>
+
+                                <?php
+                                    for ($i = 1; $i <= $exercise['sets']; $i++)
+                                    {
+                                ?>
+                                        <td><?=$result["set_$i"] ?> kg</td>
+                                <?php
+                                    }
+                                ?>
+                           </tr>
+
+                        <?php
+                            $counter++;
+                            endforeach;
+                            ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <?php
+                endif;
+                if($model->training_type == 'cardio'):
+            ?>
+
+                    <?php
+                    if($exercise['type'] == 'tijd'):
+                    ?>
+                        <h3 class="sub_title">Type: <span>Tijd</span></h3>
+                        <h3 class="sub_title"><?=$exercise['name'] ?> voor <?=$exercise['time'] ?> min.</h3>
+                    <?php
+                    endif;
+                    if($exercise['type'] == 'afstand'):
+                    ?>
+                        <h3 class="sub_title">Type: <span>Afstand</span></h3>
+                        <h3 class="sub_title"><?=$exercise['name'] ?> voor <?=$exercise['distance'] ?> meter.</h3>
+
+                    <?php
+                    endif;
+                    ?>
+
+                    <div class="table_container">
+                        <table class="result_table">
+                            <thead>
+                                <tr>
+                                    <th>Dag</th>
+                                    <th>
+                                        <?php
+                                        if($exercise['type'] == 'tijd')
+                                        {
+                                            echo 'Afstand (m)';
+                                        }
+                                        else{
+                                            echo 'Tijd (min)';
+                                        }
+                                        ?>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $counter = 1;
+                            foreach($model->getResults($exercise['id'])  as $result):
+                                ?>
+                                <tr>
+                                    <td><?=$counter ?></td>
+                                    <td>
+                                    <?php
+                                    if($exercise['type'] == 'tijd')
+                                    {
+                                        echo $result['distance'];
+                                    }
+                                    else{
+                                        echo $result['time'];
+                                    }
+                                    ?>
+                                    </td>
+                                </tr>
+
+                                <?php
+                                $counter++;
+                            endforeach;
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+            <?php
+
+
+
+                endif;
+            ?>
+        </div>
+
     </div>
+
+
+
+    <?php
+    endforeach;
+    ?>
+
+
 
 
 </div>

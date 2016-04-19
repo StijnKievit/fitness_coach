@@ -9,11 +9,12 @@
 $type_of_training = $this->training_type;
 $training_id = $this->training_id;
 $training_days = $this->training_days;
+$training_name = $this->training_name;
 ?>
 
 <div class="main_section">
-    <h1 class="main_title">Oefeningen toevoegen</h1>
-    <h2 class="sub_title"><?=$type_of_training ?></h2>
+    <h1 class=" align_left main_title">Oefeningen toevoegen</h1>
+    <h2 class="sub_title"><?=$training_name ?> <span>(<?=$type_of_training ?>)</span></h2>
 </div>
 
 <?php
@@ -49,10 +50,10 @@ if($type_of_training == "cardio"):
         </select>
     </label>
     <label class="afstand">
-        <span>Afstand (meter):</span><input type="number" value="0" name="distance">
+        <span>Afstand (meter):</span><input type="number" value="2000" name="distance" min="1">
     </label>
     <label class="tijd">
-        <span>Tijd (minuten):</span><input type="number" value="0" name="time">
+        <span>Tijd (minuten):</span><input type="number" value="10" name="time" min="1">
     </label>
     <?php
     if($this->message != null){
@@ -146,10 +147,10 @@ if($type_of_training == 'kracht'):
             </select>
         </label>
         <label class="">
-            <span>Sets:</span><input type="number" value="0" name="sets" max="8">
+            <span>Sets:</span><input type="number" value="1" name="sets" min="1" max="8">
         </label>
         <label class="">
-            <span>Herhalingen:</span><input type="number" value="0" name="reps">
+            <span>Herhalingen:</span><input type="number" value="1" name="reps" min="1">
         </label>
         <?php
         if($this->message != null){
@@ -180,6 +181,10 @@ if($type_of_training == 'kracht'):
         <h2 class="sub_title left">Armen</h2>
         <ul class="basic_list armen" id="armen"></ul>
 
+    </div>
+    <div class="main_section">
+        <a class="main_button" href=""<?=$this->url(array(  'controller' => 'training',
+            'action' => 'index')) ?>">Klaar</a>
     </div>
 <?php
 endif;

@@ -83,9 +83,11 @@ class TrainingController extends Zend_Controller_Action
                         'training_id' => $result['id']
                     ));
                 */
-                    $this->_forward('addexercise', null, null, array('training_id' => $result['id'],
-                                                                     'type' => $result['type'],
-                                                                     'days' => $result['training_days']   ));
+                    $this->_forward('addexercise', null, null, array(   'training_id' => $result['id'],
+                                                                        'type' => $result['type'],
+                                                                        'days' => $result['training_days'],
+                                                                        'name' => $result['name']
+                    ));
                 }
 
 
@@ -102,6 +104,8 @@ class TrainingController extends Zend_Controller_Action
     //returns stats of current excersice
     public function statsAction(){
 
+
+
     }
 
     public function addexerciseAction(){
@@ -112,6 +116,7 @@ class TrainingController extends Zend_Controller_Action
         $this->view->training_id = $params['training_id'];
         $this->view->training_type = $params['type'];
         $this->view->training_days = $params['days'];
+        $this->view->training_name = $params['name'];
 
     }
 
@@ -177,14 +182,22 @@ class TrainingController extends Zend_Controller_Action
 
     public function trainingstatsAction(){
 
-        $user_table = new Application_Model_User();
-        $training_id = $user_table->getCurrentTraining();
+        $request = $this->getRequest();
+        $params = $request->getParams();
 
-        $training_model = new Application_Model_Training();
-        $training_model->setTraining($training_id);
+        $stats_model = new Application_Model_TrainingStats();
 
-        $this->view->type_of_training = $training_model->type_of_training;
-        $this->view->completed_exercises = $training_model->getcompletedExercises();
+        if(isset($params['training_id']))
+        {
+            $stats_model->setTrainingId($params['training_id']);
+            $stats_model->getTraining();
+        }
+        else{
+            $stats_model->getTraining();
+        }
+
+        $this->view->model = $stats_model;
+
 
     }
 

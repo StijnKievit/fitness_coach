@@ -1,9 +1,5 @@
 <?php
-
-$training_model = $this->cur_training;
-
-/*var_dump($training_model->training_id);*/
-
+    $training_model = $this->cur_training;
 ?>
 
 <div class="main_section">
@@ -21,16 +17,10 @@ $training_model = $this->cur_training;
         ?>
         <h2 class="sub_title"><?=$training_model->name  ?></h2>
         <ul class="spec_list">
-           <!-- <li>Aantal training's dagen: <span><?/*=$training_model->training_days */?></span></li>
-            <li>Huidige dag: <span><?/*=$training_model->cur_day */?></span></li>
-            <li>Aantal training's weken: <span><?/*=$training_model->training_weeks */?></span></li>
-            <li>Huidige week: <span><?/*=$training_model->cur_week */?></span></li>
-            <li>Oefeningen: <span><?/*=$training_model->countExercises() */?></span></li>
-            <li>Progressie: <span><?/*=$training_model->getProgress() */?>%</span></li>-->
-            <li>Training's dagen: <span><?=$training_model->training_days ?>/<?=$training_model->cur_day?></span></li>
-            <li>Training's weken: <span><?=$training_model->training_weeks ?>/<?=$training_model->cur_week?></span></li>
+            <li>Training's dagen: <span><?=$training_model->cur_day?>/<?=$training_model->training_days ?></span></li>
+            <li>Training's weken: <span><?=$training_model->cur_week?>/<?=$training_model->training_weeks ?></span></li>
             <li>Aantal oefeningen: <span><?=$training_model->countExercises() ?></span></li>
-            <li>Progressie: <span><?= ($training_model->getProgress() == 100) ? 'Afgerond' : $training_model->getProgress().'%' ?></span></li>
+            <li>Progressie: <span><?= ($training_model->getProgress() == 100) ? 'Afgerond' : floor($training_model->getProgress()).'%' ?></span></li>
         </ul>
         <?php if($training_model->getProgress() < 100) :?>
         <a href="<?=$this->url(array(  'controller' => 'training',

@@ -1,5 +1,5 @@
 <div class="main_section">
-    <h1 class="main_title">Training aanmaken</h1>
+    <h1 class="align_left main_title">Training aanmaken</h1>
 </div>
     <form class="basic_form" method="post" >
         <label>
@@ -14,10 +14,10 @@
             </select>
         </label>
         <label>
-            <span>Dagen per week:</span><input type="number" value="1" name="days">
+            <span>Dagen per week:</span><input type="number" value="1" name="days" min="1" max="7">
         </label>
         <label>
-            <span>Aantal weken:</span><input type="number" value="4" name="weeks">
+            <span>Aantal weken:</span><input type="number" value="4" name="weeks" min="1">
         </label>
         <?php
         if($this->message != null){

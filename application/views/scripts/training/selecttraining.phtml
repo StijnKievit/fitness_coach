@@ -16,8 +16,9 @@
                     <?=$training['name'] ?>
                 </span>
             <div class="item_selection">
-                <a href="" class="">Statistieken</a>
-                <a href="" class="">Verwijderen</a>
+                <a href="<?=$this->url(array(  'controller' => 'training',
+                    'action' => 'trainingstats', 'training_id' => $training['id'])) ?>" class="">Statistieken</a>
+                <a class="remove_training">Verwijderen</a>
             </div>
         </li>
 
@@ -54,7 +55,8 @@
                 </span>
                 <div class="item_selection">
                     <a class="select_training">Selecteren</a>
-                    <a class="training_stats">Statistieken</a>
+                    <a href="<?=$this->url(array(  'controller' => 'training',
+                        'action' => 'trainingstats', 'training_id' => $training['id'])) ?>" class="training_stats">Statistieken</a>
                     <a class="remove_training">Verwijderen</a>
                 </div>
 
