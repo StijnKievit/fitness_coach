@@ -7,6 +7,7 @@
  */
 
 $challenges = $this->challenges;
+$user_array_challenge = $this->user_challenges;
 
 ?>
 <div class="main_section">
@@ -22,8 +23,8 @@ $challenges = $this->challenges;
                     <div class="challenge_description">
                         <div>
                             <h3><?=$challenge['name'] ?></h3>
-                            <a class="add_challenge">
-                                Accepteer
+                            <a data-id = "<?=$challenge['id'] ?>" class="add_challenge <?= (in_array($challenge['id'], $user_array_challenge)) ? 'accepted' : '' ?>">
+                                <?= (in_array($challenge['id'], $user_array_challenge)) ? 'Geaccepteerd' : 'Accepteer' ?>
                             </a>
                         </div>
                         <p><?=$challenge['description'] ?></p>
@@ -46,3 +47,25 @@ $challenges = $this->challenges;
 
 
 </div>
+<script>
+    var accept_buttons = $('.add_challenge');
+    accept_buttons.click(function(e){
+        var item = $(this);
+        var id = item.attr('data-id');
+        console.log(id);
+        addChallenge(id, item);
+        e.preventDefault();
+    });
+
+
+    function addChallenge(challenge_id, item)
+    {
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'addchallenge'))?>", "challenge_id="+challenge_id, function( data ) {
+
+            item.addClass('accepted');
+            item.text('Geaccepteerd');
+        });
+    }
+
+</script>

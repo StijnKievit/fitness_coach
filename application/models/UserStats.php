@@ -33,13 +33,26 @@ class Application_Model_UserStats
          * value = raw data
          * */
 
+        var_dump($training);
+        var_dump($type);
+        var_dump($value);
+
+
+
         $user_challenge_table = new Application_Model_DbTable_UserChallenge();
+
+        var_dump($user_challenge_table->select()
+            ->where("training_type = ?", $training)
+            ->where("exercise_type = ?", $type)
+            ->where("completed = 0"));
 
         $valid_challenges = $user_challenge_table->fetchAll($user_challenge_table->select()
                                                                 ->where("training_type = ?", $training)
                                                                 ->where("exercise_type = ?", $type)
                                                                 ->where("completed = 0")
         );
+
+
 
         foreach($valid_challenges as $challenge)
         {
@@ -85,7 +98,7 @@ class Application_Model_UserStats
 
         $user_records_check = $user_challenge_table->fetchAll($user_challenge_table->select()->where('uitdaging_id = ?', $challenge_id));
 
-        if(count($user_records_check) > 1)
+        if(count($user_records_check) >= 1)
         {
             /*throw exception*/
         }
@@ -105,6 +118,44 @@ class Application_Model_UserStats
         }
     }
 
+    public function getUserAcceptedChallengesById(){
+
+        $challenges = $this->getChallenges();
+
+        $data_array = array();
+
+        foreach( $challenges as $challenge){
+            array_push($data_array, $challenge['id']);
+        }
+
+        return $data_array;
+
+    }
+
+    public function getBaseChallengeById($id){
+
+        $db_model = new Application_Model_DbTable_Challenge();
+
+        $result = $db_model->fetchRow($db_model->select()->where('id = ?', $id));
+
+        return $result;
+    }
+
+    public function getAmountChallenges($type, $completed)
+    {
+        /*type = kracht / cardio
+          completed = bool
+        */
+        $db_model = new Application_Model_DbTable_UserChallenge();
+
+        $results = $db_model->fetchAll($db_model    ->select()
+                                                    ->where('training_type = ?', $type)
+                                                    ->where("completed = ?", $completed)
+        );
+
+        return count($results);
+
+    }
 
 
 

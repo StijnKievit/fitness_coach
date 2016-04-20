@@ -547,6 +547,8 @@ h2.sub_title{
     display: block;
     float: left;
     padding: 10px;*/
+    height: 60px;
+
 }
 .challenge_description > div:last-child{
     /*width: 40%;
@@ -578,12 +580,22 @@ h2.sub_title{
     background-color: #ce021b;
     color: #FFFFFF;
     text-align: center;
+    line-height: 40px;
 
 }
 .challenge_description p{
     width: 100%;
     display: block;
     padding: 10px;
+}
+
+.add_challenge {
+
+}
+
+.add_challenge.accepted{
+    background-color: #8f8f8f;
+    color: #FFFFFF;
 }
 
 .challenge .challenge_details{
@@ -618,3 +630,70 @@ ul.challenge_list li span{
     background-color: #BBBBBB;
     color: #FFFFFF;
 }
+
+.green{
+    background-color: #1bce02;
+}
+
+/*user challenge details*/
+.user_challenge_box{
+    width: 100%;
+    font-size: 2em;
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.user_challenge_box:last-child{
+    margin-bottom: 0;
+}
+.user_challenge_box h4{
+    margin-bottom: 10px;
+    font-size: 1.4em;
+
+}
+
+.user_challenge_box p{
+
+}
+
+.straight_progress_bar{
+    margin:  20px 0;
+    width: 100%;
+    height: 4px;
+    position: relative;
+}
+
+.user_challenge_box .challenge_details{
+
+
+}
+
+.user_challenge_box .challenge_details ul.challenge_list{
+    padding: 0;
+    list-style: none;
+    font-size: 1em;
+}
+.user_challenge_box .challenge_list li{
+    padding: 0;
+}
+
+.deviders{
+    background-color: #ce021b;
+    color: #FFFFFF;
+    width: 100%;
+
+    text-align: center;
+}
+
+.section_title{
+    font-size: 3em;
+    text-align: center;
+}
+
+.user_challenge_container > div{
+    margin-bottom: 20px;
+}
+
+/*new section*/
+

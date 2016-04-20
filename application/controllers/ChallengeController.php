@@ -29,6 +29,7 @@ class ChallengeController extends Zend_Controller_Action
     public function newchallengesAction(){
 
         $db_model = new Application_Model_DbTable_Challenge();
+        $user_stats_model = new Application_Model_UserStats();
 
         $challenges = $db_model->fetchAll($db_model->select()
         ->order('id DESC')
@@ -36,7 +37,18 @@ class ChallengeController extends Zend_Controller_Action
 
         );
 
+
+        $this->view->user_challenges = $user_stats_model->getUserAcceptedChallengesById();
         $this->view->challenges = $challenges;
+
+
+    }
+
+    public function mychallengesAction(){
+
+        $challenge_model = new Application_Model_UserStats();
+
+        $this->view->model = $challenge_model;
 
     }
 

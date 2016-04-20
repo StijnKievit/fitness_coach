@@ -218,6 +218,29 @@ class AjaxController extends Zend_Controller_Action
             $id = $request->getParams()['id'];
             $db_model = new Application_Model_DbTable_Training();
             $db_model->delete("id = " . $id);
+
+            /*check if it's current training*/
+            $user_model = new Application_Model_User();
+
+            if($user_model->getCurrentTraining() == $id)
+            {
+                $user_model->setCurrentTraining(null);
+            }
+        }
+    }
+
+    public function addchallengeAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        if ($this->getRequest()->isPost()) {
+
+            $params = $request->getParams();
+            $challenge_id = $params['challenge_id'];
+            $user_stats_model = new Application_Model_UserStats();
+            $user_stats_model->newChallenge($challenge_id);
+
         }
     }
 }

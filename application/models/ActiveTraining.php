@@ -154,7 +154,11 @@ class Application_Model_ActiveTraining{
 
             $this->user_model->addPoints('cardio', ( $cardio_results['distance'] / ($cardio_results['time'] * 60) ) * 100 );
 
-            var_dump($new_data);
+            /*check if challenge is there*/
+            $challenge_model = new Application_Model_UserStats();
+            $challenge_model->updateChallenges($this->training_type, 'tijd', $cardio_results['time']  );
+            $challenge_model->updateChallenges($this->training_type, 'afstand', $cardio_results['distance']  );
+
 
             array_push($this->exercise_done_list, $new_data);
         }
@@ -189,7 +193,14 @@ class Application_Model_ActiveTraining{
                 $total_weights+= $result;
             }
 
-            $this->user_model->addPoints('kracht', ($total_weights * $cur_exercise['sets'] * $cur_exercise['reps']) * .01 );
+            $this->user_model->addPoints('kracht', ($total_weights * $cur_exercise['reps']) * .01 );
+
+            /*check if there are challenges to complete*/
+
+            $challenge_model = new Application_Model_UserStats();
+            $challenge_model->updateChallenges($this->training_type, $cur_exercise['type'], $total_weights * $cur_exercise['reps'] );
+
+
         }
     }
 

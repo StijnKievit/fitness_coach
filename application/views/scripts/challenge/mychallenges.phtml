@@ -5,3 +5,312 @@
  * Date: 19-4-2016
  * Time: 12:51
  */
+
+$model = $this->model;
+$challenges = $model->getChallenges();
+
+?>
+
+<div class="main_section">
+    <h1 class="main_title align_left">Mijn uitdagingen</h1>
+</div>
+<div class="user_challenge_container">
+
+    <?php
+    if($model->getAmountChallenges('cardio', true) > 0 || $model->getAmountChallenges('cardio', false) > 0):
+
+    ?>
+
+    <h2 class="sub_title deviders">
+        Cardio
+    </h2>
+
+    <?php
+    if($model->getAmountChallenges('cardio', false) > 0):
+        ?>
+
+    <div>
+        <h3 class="section_title">Challenges to beat</h3>
+        <?php
+            foreach($challenges as $challenge ):
+
+                if($challenge['completed'] == 0 && $challenge['training_type'] == 'cardio'):
+
+                    $base_challenge = $model->getBaseChallengeById($challenge['uitdaging_id']);
+        ?>
+                    <div class="user_challenge_box">
+                    <h4><?=$base_challenge['name'] ?></h4>
+                    <p><?=$base_challenge['description'] ?></p>
+                    <div class="straight_progress_bar straight_progress_bar_<?=$challenge['id'] ?>">
+                    </div>
+                    <script>
+                        var bar<?=$challenge['id'] ?> = new ProgressBar.Line(".straight_progress_bar_<?=$challenge['id'] ?>",
+                            {
+                                strokeWidth: 4,
+                                easing: 'easeInOut',
+                                duration: 1400,
+                                color: '#ce021b',
+                                trailColor: '#a7a7a7',
+                                trailWidth: 1,
+                                svgStyle: {width: '100%', height: '100%'},
+                                text: {
+                                    style: {
+                                        // Text color.
+                                        // Default: same as stroke color (options.color)
+                                        color: '#999',
+                                        position: 'absolute',
+                                        right: '0',
+                                        top: '15px',
+                                        padding: 0,
+                                        margin: 0,
+                                        transform: null
+                                    },
+                                    autoStyleContainer: false
+                                },
+                                step: (state, bar<?=$challenge['id'] ?>) => {
+                                bar<?=$challenge['id'] ?>.setText(Math.round(bar<?=$challenge['id'] ?>.value() * 100) + ' %');
+                                }
+
+
+                            });
+
+                        bar<?=$challenge['id'] ?>.animate( <?= (float) $challenge['cur_value'] / $challenge['goal'] ?>);
+                    </script>
+                    <div class="challenge_details">
+                        <ul class="challenge_list">
+                            <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
+                            <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                            <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+        <?php
+                endif;
+
+            endforeach;
+        ?>
+    </div>
+
+    <?php
+    endif;
+
+    if($model->getAmountChallenges('cardio', true) > 0):
+        ?>
+
+    <div>
+        <h3 class="section_title">Challenges done</h3>
+        <?php
+        foreach($challenges as $challenge ):
+
+            if($challenge['completed'] == 1 && $challenge['training_type'] == 'cardio'):
+
+                $base_challenge = $model->getBaseChallengeById($challenge['uitdaging_id']);
+            ?>
+                <div class="user_challenge_box">
+                <h4><?=$base_challenge['name'] ?></h4>
+                <p><?=$base_challenge['description'] ?></p>
+                <div class="straight_progress_bar straight_progress_bar_<?=$challenge['id'] ?>">
+                </div>
+                <script>
+                    var bar<?=$challenge['id'] ?> = new ProgressBar.Line(".straight_progress_bar_<?=$challenge['id'] ?>",
+                        {
+                            strokeWidth: 4,
+                            easing: 'easeInOut',
+                            duration: 1400,
+                            color: '#ce021b',
+                            trailColor: '#a7a7a7',
+                            trailWidth: 1,
+                            svgStyle: {width: '100%', height: '100%'},
+                            text: {
+                                style: {
+                                    // Text color.
+                                    // Default: same as stroke color (options.color)
+                                    color: '#999',
+                                    position: 'absolute',
+                                    right: '0',
+                                    top: '15px',
+                                    padding: 0,
+                                    margin: 0,
+                                    transform: null
+                                },
+                                autoStyleContainer: false
+                            },
+                            step: (state, bar<?=$challenge['id'] ?>) => {
+                            bar<?=$challenge['id'] ?>.setText(Math.round(bar<?=$challenge['id'] ?>.value() * 100) + ' %');
+                    }
+
+
+                    });
+
+                    bar<?=$challenge['id'] ?>.animate( <?= (float) $challenge['cur_value'] / $challenge['goal'] ?>);
+                </script>
+                <div class="challenge_details">
+                    <ul class="challenge_list">
+                        <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
+                        <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                        <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
+                    </ul>
+                </div>
+            </div>
+
+        <?php
+
+            endif;
+        endforeach;;
+        ?>
+
+    </div>
+
+    <?php
+    endif;
+    endif;
+
+    if($model->getAmountChallenges('kracht', true) > 0 || $model->getAmountChallenges('kracht', false) > 0):
+
+    ?>
+
+    <h2 class="sub_title deviders">
+        Kracht
+    </h2>
+
+            <?php
+            if($model->getAmountChallenges('kracht', false) > 0):
+            ?>
+                <div>
+                    <h3 class="section_title">Challenges to beat</h3>
+                    <?php
+                    foreach($challenges as $challenge ):
+
+                    if($challenge['completed'] == 0 && $challenge['training_type'] == 'kracht'):
+
+                        $base_challenge = $model->getBaseChallengeById($challenge['uitdaging_id']);
+                        ?>
+                        <div class="user_challenge_box">
+                            <h4><?=$base_challenge['name'] ?></h4>
+                            <p><?=$base_challenge['description'] ?></p>
+                            <div class="straight_progress_bar straight_progress_bar_<?=$challenge['id'] ?>">
+                            </div>
+                            <script>
+                                var bar<?=$challenge['id'] ?> = new ProgressBar.Line(".straight_progress_bar_<?=$challenge['id'] ?>",
+                                    {
+                                        strokeWidth: 4,
+                                        easing: 'easeInOut',
+                                        duration: 1400,
+                                        color: '#ce021b',
+                                        trailColor: '#a7a7a7',
+                                        trailWidth: 1,
+                                        svgStyle: {width: '100%', height: '100%'},
+                                        text: {
+                                            style: {
+                                                // Text color.
+                                                // Default: same as stroke color (options.color)
+                                                color: '#999',
+                                                position: 'absolute',
+                                                right: '0',
+                                                top: '15px',
+                                                padding: 0,
+                                                margin: 0,
+                                                transform: null
+                                            },
+                                            autoStyleContainer: false
+                                        },
+                                        step: (state, bar<?=$challenge['id'] ?>) => {
+                                        bar<?=$challenge['id'] ?>.setText(Math.round(bar<?=$challenge['id'] ?>.value() * 100) + ' %');
+                                }
+
+
+                                });
+
+                                bar<?=$challenge['id'] ?>.animate( <?= (float) $challenge['cur_value'] / $challenge['goal'] ?>);
+                            </script>
+                            <div class="challenge_details">
+                                <ul class="challenge_list">
+                                    <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
+                                    <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                                    <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <?php
+                        endif;
+                        endforeach;
+                    ?>
+                </div>
+            <?php
+            endif;
+
+            if($model->getAmountChallenges('kracht', true) > 0):
+            ?>
+
+    <div>
+        <h3 class="section_title">Challenges done</h3>
+        <?php
+        foreach($challenges as $challenge ):
+
+            if($challenge['completed'] == 1 && $challenge['training_type'] == 'kracht'):
+
+            $base_challenge = $model->getBaseChallengeById($challenge['uitdaging_id']);
+            ?>
+            <div class="user_challenge_box">
+                <h4><?=$base_challenge['name'] ?></h4>
+                <p><?=$base_challenge['description'] ?></p>
+                <div class="straight_progress_bar straight_progress_bar_<?=$challenge['id'] ?>">
+                </div>
+                <script>
+                    var bar<?=$challenge['id'] ?> = new ProgressBar.Line(".straight_progress_bar_<?=$challenge['id'] ?>",
+                        {
+                            strokeWidth: 4,
+                            easing: 'easeInOut',
+                            duration: 1400,
+                            color: '#ce021b',
+                            trailColor: '#a7a7a7',
+                            trailWidth: 1,
+                            svgStyle: {width: '100%', height: '100%'},
+                            text: {
+                                style: {
+                                    // Text color.
+                                    // Default: same as stroke color (options.color)
+                                    color: '#999',
+                                    position: 'absolute',
+                                    right: '0',
+                                    top: '15px',
+                                    padding: 0,
+                                    margin: 0,
+                                    transform: null
+                                },
+                                autoStyleContainer: false
+                            },
+                            step: (state, bar<?=$challenge['id'] ?>) => {
+                            bar<?=$challenge['id'] ?>.setText(Math.round(bar<?=$challenge['id'] ?>.value() * 100) + ' %');
+                    }
+
+
+                    });
+
+                    bar<?=$challenge['id'] ?>.animate( <?= (float) $challenge['cur_value'] / $challenge['goal'] ?>);
+                </script>
+                <div class="challenge_details">
+                    <ul class="challenge_list">
+                        <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
+                        <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                        <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <?php
+            endif;
+            endforeach;
+        ?>
+    </div>
+
+    <?php
+            endif;
+    endif;
+    ?>
+
+
+
+</div>
