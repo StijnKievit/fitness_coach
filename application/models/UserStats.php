@@ -67,11 +67,14 @@ class Application_Model_UserStats
             if($new_value >= $goal)
             {
                     $completed = 1;
+                /*set data cur value to goal when challenge is completed*/
+                    $new_value = $goal;
 
                     $challenge_table = new Application_Model_DbTable_Challenge();
                     $challenge_data = $challenge_table->fetchRow($challenge_table->select()->where('id = ?', $challenge['uitdaging_id']));
 
                     $user_model = new Application_Model_User();
+
 
                     $user_model->addPoints($challenge_data['type_of_training'], $challenge_data['value']);
             }

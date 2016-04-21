@@ -243,4 +243,39 @@ class AjaxController extends Zend_Controller_Action
 
         }
     }
+
+    public function getexercisesAction()
+    {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->getRequest();
+
+        $params = $request->getParams();
+
+        $db_table = new Application_Model_DbTable_Exercises();
+
+        if($params['type_of_training'] == 'kracht'){
+
+            /*get only specific exercises for normal training*/
+            $results = $db_table->fetchAll($db_table->select()
+                ->where('training_type = ?', $params['type_of_training'])
+                ->where('exercise_type = ?', $params['type_of_exercise']));
+        }
+        elseif($params['type_of_training'] == 'cardio')
+        {
+            /*get every cardio exercise*/
+            $results = $db_table->fetchAll($db_table->select()
+                ->where('training_type = ?', $params['type_of_training'])
+               );
+        }
+
+        $dataArray = array();
+
+        foreach($results as $result)
+        {
+            array_push($dataArray, $result['name']);
+        }
+
+        echo json_encode($dataArray);
+    }
 }

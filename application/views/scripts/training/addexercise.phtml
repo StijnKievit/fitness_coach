@@ -25,7 +25,13 @@ if($type_of_training == "cardio"):
     <input type="hidden" value="cardio" name="type_of_training">
     <input type="hidden" value="<?=$this->training_id ?>" name="training_id">
     <label>
-        <span>Naam:</span><input type="text" placeholder="Bijv. hardlopen, roeien" name="name">
+        <span>Naam:</span><input type="text" placeholder="Bijv. hardlopen, roeien" name="name" list="exerciseNames" autocomplete="off">
+        <datalist id="exerciseNames">
+            <!--add options per training type-->
+            <option>Test01</option>
+            <option>Crunches</option>
+            <option>Planken</option>
+        </datalist>
     </label>
     <label>
         <span>Dag:</span>
@@ -44,7 +50,7 @@ if($type_of_training == "cardio"):
     </label>
     <label>
         <span>Type:</span>
-        <select name="type" class="training_type">
+        <select name="type" class="training_type" id="type_of_training_select">
             <option value="afstand">Afstand</option>
             <option value="tijd">Tijd</option>
         </select>
@@ -119,7 +125,13 @@ if($type_of_training == 'kracht'):
         <input type="hidden" value="kracht" name="type_of_training">
         <input type="hidden" value="<?=$this->training_id ?>" name="training_id">
         <label>
-            <span>Naam:</span><input type="text" placeholder="" name="name">
+            <span>Naam:</span><input type="text" placeholder="" name="name" list="exerciseNames" autocomplete="off">
+            <datalist id="exerciseNames">
+                <!--add options per training type-->
+                <option>Test01</option>
+                <option>Crunches</option>
+                <option>Planken</option>
+            </datalist>
         </label>
         <label>
             <span>Dag:</span>
@@ -138,12 +150,13 @@ if($type_of_training == 'kracht'):
         </label>
         <label>
             <span>Type:</span>
-            <select name="type" class="training_type">
+            <select name="type" class="training_type" id="type_of_training_select">
                 <option value="benen">Benen & billen</option>
                 <option value="borst">Borst</option>
                 <option value="rug">Rug</option>
                 <option value="schouders">Schouders</option>
                 <option value="armen">Armen</option>
+                <option value="buik">Buik</option>
             </select>
         </label>
         <label class="">
@@ -180,6 +193,8 @@ if($type_of_training == 'kracht'):
         <ul class="basic_list schouders" id="schouders"></ul>
         <h2 class="sub_title left">Armen</h2>
         <ul class="basic_list armen" id="armen"></ul>
+        <h2 class="sub_title left">Buik</h2>
+        <ul class="basic_list buik" id="buik"></ul>
 
     </div>
     <div class="main_section">
@@ -217,6 +232,7 @@ endif;
             var rug_list = $('#rug');
             var schouder_list = $('#schouders');
             var arm_list = $('#armen');
+            var buik_list = $('#buik');
 
             switch (data.type) {
                 case 'afstand':
@@ -247,12 +263,16 @@ endif;
                     arm_list.append(data.html);
                     update();
                     break;
+                case 'buik':
+                    buik_list.append(data.html);
+                    update();
+                    break;
             }
         });
 
         //clear form after submit: except button, submit, rest & hidden
         $(':input','.active_form')
-            .not(':button, :submit, :reset, :hidden')
+            .not(':button, :submit, :reset, :hidden, :number, :select')
             .val('')
             .removeAttr('checked');
     });
@@ -260,6 +280,50 @@ endif;
 
 </script>
 
+<!--scriptto get options for exercise names-->
+<script>
+    var object = $('#type_of_training_select');
+    var cur_type = object.val();
+
+    object.change(function(e){
+
+        cur_type = object.val();
+        getOptions(cur_type);
+    });
+
+    getOptions(cur_type);
+
+
+    function getOptions(value){
+        console.log(value);
+
+        if( '<?=$type_of_training ?>' == 'cardio')
+        {
+            value = null;
+        }
+
+        $.post( "<?= $this->url(array(  'controller' => 'ajax',
+            'action' => 'getexercises'))?>",
+                { type_of_training: "<?=$type_of_training ?>",
+                    type_of_exercise: value } ,
+            function( data ) {
+
+            var data = ($.parseJSON(data));
+
+                var data_list_container = $('#exerciseNames');
+                data_list_container.empty();
+
+                for (i = 0; i < data.length; i++) {
+
+                    data_list_container.append('<option>' + data[i] + '</option>');
+                }
+        });
+
+
+    }
+
+
+</script>
 
 <!--overview script-->
 <script>
