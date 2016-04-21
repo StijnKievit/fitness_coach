@@ -158,9 +158,11 @@ class AjaxController extends Zend_Controller_Action
                 if($params['training_type'] == "cardio")
                 {
                     $data = array(
-                        "time" => $params['time'],
+                        "time" => $params['time_seconds'],
                         "distance" => $params['distance']
                     );
+
+
                     $myNamespace = new Zend_Session_Namespace('active_training');
                     ($myNamespace->model->finished_exersice($params['oefening_id'], $data));
                 }

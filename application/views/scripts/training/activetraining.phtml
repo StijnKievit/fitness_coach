@@ -80,16 +80,73 @@ foreach($this->oefeningen as $oefening):
                         <input type="hidden" value="<?=$oefening['id'] ?>" name="oefening_id">
                         <input type="hidden" value="<?=$oefening['type'] ?>" name="oefening_type">
                         <input type="hidden" value="<?=$this->training_type ?>" name="training_type">
-                        <label>
+                        <input type="hidden" value="0" name="time_seconds" class="time_input_field_<?=$oefening['id'] ?>">
+                       <!-- <label>
                             Minuten:
                             <input type="number" name="time" />
-                        </label>
+                        </label>-->
+
+                        <span class="timer timer_<?=$oefening['id'] ?>"><span class="minutes_<?=$oefening['id'] ?>">0</span>:<span class="seconds_<?=$oefening['id'] ?>">00</span></span>
+                        <button class="start_timer_btn start_timer_btn_<?=$oefening['id'] ?> main_button">Start timer</button>
+
                         <input type="hidden" value="<?=$oefening['distance'] ?>" name="distance">
                         <?php
 
 
                         ?>
-                        <input type="submit" value="Opslaan" class="main_button">
+                        <input type="submit" value="Opslaan" class="main_button exercise_<?=$oefening['id'] ?>_submit">
+                        <script>
+                            var active = false;
+
+                            $('.exercise_<?=$oefening['id'] ?>_submit').hide();
+                            $('.start_timer_btn_<?=$oefening['id'] ?>').click(function(e){
+
+                                if(!active) {
+                                    active = true;
+                                }
+
+                                var timer = $('.timer_<?=$oefening['id'] ?>');
+                                var minutes = $('.minutes_<?=$oefening['id'] ?>');
+                                var seconds = $('.seconds_<?=$oefening['id'] ?>');
+                                var input = $('.time_input_field_<?=$oefening['id'] ?>');
+
+                                var total_seconds = 0;
+                                var cur_seconds = 0;
+                                var cur_min = 0;
+
+                                $(this).text('Stop timer');
+
+                                $('.start_timer_btn_<?=$oefening['id'] ?>').click(function(e){
+                                    active = false;
+                                    input.val(total_seconds);
+                                    $(this).remove();
+                                    $('.exercise_<?=$oefening['id'] ?>_submit').show();
+                                });
+
+
+                                setInterval(function() {
+
+                                    if(active) {
+                                        if (cur_seconds == 59) {
+                                            cur_min++;
+                                            cur_seconds = 0;
+                                        }
+                                        else {
+                                            cur_seconds++;
+                                        }
+
+                                        seconds.text(('0' + cur_seconds).slice(-2));
+                                        minutes.text(cur_min);
+
+                                        total_seconds++;
+                                    }
+
+                                }, 1000);
+
+                                e.preventDefault();
+                            });
+
+                        </script>
                     </form>
         <?php
                 }
@@ -97,23 +154,83 @@ foreach($this->oefeningen as $oefening):
                 {
         ?>
                     <p class="instruction">
-                        <span><?=$oefening['name'] ?></span> voor <span><?=$oefening['time'] ?></span> minuten.
+                        <span><?=$oefening['name'] ?></span> voor <span><?=$oefening['time'] ?></span> minu(u)t(en).
                     </p>
                     <form class="basic_form" method="post" action="">
                         <input type="hidden" value="<?=$oefening['id'] ?>" name="oefening_id">
                         <input type="hidden" value="<?=$oefening['type'] ?>" name="oefening_type">
                         <input type="hidden" value="<?=$this->training_type ?>" name="training_type">
-                        <label>
+                        <label class="distance_input_<?=$oefening['id'] ?>">
                             Meters:
                             <input type="number" name="distance" />
                         </label>
-                        <input type="hidden" value="<?=$oefening['time'] ?>" name="time">
+                        <input type="hidden" value="<?=$oefening['time'] * 60 ?>" name="time_seconds">
 
-                        <?php
+                        <span class="timer timer_<?=$oefening['id'] ?>"><span class="minutes_<?=$oefening['id'] ?>"><?=(int)$oefening['time'] ?></span>:<span class="seconds_<?=$oefening['id'] ?>">00</span></span>
+                        <button class="start_timer_btn start_timer_btn_<?=$oefening['id'] ?> main_button">Start oefening</button>
+
+                        <input type="submit" value="Opslaan" class="main_button exercise_<?=$oefening['id'] ?>_submit">
+                        <script>
+                            var active = false;
+
+                            $('.exercise_<?=$oefening['id'] ?>_submit').hide();
+                            $('.distance_input_<?=$oefening['id'] ?>').hide();
 
 
-                        ?>
-                        <input type="submit" value="Opslaan" class="main_button">
+                            $('.start_timer_btn_<?=$oefening['id'] ?>').click(function(e){
+
+                                console.log(active);
+
+                                if(!active) {
+                                    active = true;
+                                }
+
+                                var timer = $('.timer_<?=$oefening['id'] ?>');
+                                var minutes = $('.minutes_<?=$oefening['id'] ?>');
+                                var seconds = $('.seconds_<?=$oefening['id'] ?>');
+
+                                var total_seconds = <?=(int)$oefening['time'] * 60 ?>;
+                                var cur_seconds = 0;
+                                var cur_min = <?=(int)$oefening['time'] ?>;
+
+                                $(this).hide();
+
+                                setInterval(function() {
+
+                                    if(total_seconds <= 0)
+                                    {
+                                        active = false;
+                                        $(this).remove();
+                                        $('.exercise_<?=$oefening['id'] ?>_submit').show();
+                                        $('.distance_input_<?=$oefening['id'] ?>').show();
+
+                                    }
+
+                                    if(active) {
+
+                                        console.log('value');
+
+                                        if (cur_seconds == 0) {
+                                            cur_min--;
+                                            cur_seconds = 59;
+                                        }
+                                        else {
+                                            cur_seconds--;
+                                        }
+
+                                        seconds.text(('0' + cur_seconds).slice(-2));
+                                        minutes.text(cur_min);
+
+                                        total_seconds--;
+                                    }
+
+                                }, 1000);
+
+                                e.preventDefault();
+                            });
+
+                        </script>
+
                     </form>
         <?php
                 }
@@ -180,6 +297,11 @@ endforeach;
         console.log('start stuff');
         items.hide();
         $(items[cur_item]).show();
+
+        if(items.length == 1)
+        {
+            hide_arrows();
+        }
     }
 
     function back_action(){
@@ -189,9 +311,7 @@ endforeach;
         else {
             cur_item = (items.length - 1)
         }
-/*
-        console.log(cur_item);
-*/
+
         start();
     }
 
@@ -203,9 +323,7 @@ endforeach;
         else {
             cur_item = 0;
         }
-/*
-        console.log(cur_item);
-*/
+
         start();
     }
 

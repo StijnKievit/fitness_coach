@@ -33,9 +33,9 @@ class Application_Model_UserStats
          * value = raw data
          * */
 
-        var_dump($training);
+        /*var_dump($training);
         var_dump($type);
-        var_dump($value);
+        var_dump($value);*/
 
 
 
@@ -128,7 +128,7 @@ class Application_Model_UserStats
         $data_array = array();
 
         foreach( $challenges as $challenge){
-            array_push($data_array, $challenge['id']);
+            array_push($data_array, $challenge['uitdaging_id']);
         }
 
         return $data_array;

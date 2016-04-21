@@ -2,12 +2,12 @@
     margin: 0;
     padding: 0 20px 0 0;
     font-size: 3.5em;
-    color: #ce021b;
+    color: #042440;
     text-align: center;
 }
 
 .training_container, .training_message{
-    background-color: #ce021b;
+    background-color: #042440;
     color: #FFFFFF;
     width: calc(100% + 40px);
     margin-left: -20px;
@@ -49,6 +49,10 @@
 .training_container .main_button{
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
+}
+
+.training_container .start_timer_btn{
+    font-size: .5em;
 }
 
 .training_container .basic_form label{
@@ -167,4 +171,9 @@ table td:last-child {
 .result_box .sub_title span{
     text-align: right;
     font-size: 110%;
+}
+
+.timer{
+    display: block;
+    margin-bottom: 20px;
 }

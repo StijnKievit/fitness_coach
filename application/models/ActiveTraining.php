@@ -152,7 +152,7 @@ class Application_Model_ActiveTraining{
                 "distance" => $cardio_results['distance']
             );
 
-            $this->user_model->addPoints('cardio', ( $cardio_results['distance'] / ($cardio_results['time'] * 60) ) * 100 );
+            $this->user_model->addPoints('cardio', ( $cardio_results['distance'] / ($cardio_results['time']) ) * 100 );
 
             /*check if challenge is there*/
             $challenge_model = new Application_Model_UserStats();
@@ -220,7 +220,6 @@ class Application_Model_ActiveTraining{
 
             foreach($this->exercise_done_list as $exercise)
             {
-
                 $db_table = new Application_Model_DbTable_FinishedCardio();
                 $db_table->insert($exercise);
             }

@@ -95,7 +95,7 @@ $model = $this->model;
                                             echo 'Afstand (m)';
                                         }
                                         else{
-                                            echo 'Tijd (min)';
+                                            echo 'Tijd (mm:ss)';
                                         }
                                         ?>
                                     </th>
@@ -116,13 +116,13 @@ $model = $this->model;
                                         echo $result['distance'];
                                     }
                                     else{
-                                        echo $result['time'];
+                                        echo date('i:s', mktime(0, $result['time']));
                                     }
                                     ?>
                                     </td>
                                     <td>
                                         <!--time is in minutes so convert to seconds-->
-                                        <?= round((($result['distance'] / ( $result['time'] * 60 ) ) * 3.6), 1) ?>
+                                        <?= round((($result['distance'] / ( $result['time'] ) ) * 3.6), 1) ?>
                                     </td>
                                 </tr>
 
