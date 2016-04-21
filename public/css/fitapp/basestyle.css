@@ -14,9 +14,10 @@ body{
 /*header section*/
 .header{
     height: 80px;
-    background-color: #ce021b;
+    background-color: #042440;
     width: 100%;
     position: relative;
+    box-shadow: 0px 5px 5px #888888;
 }
 
 .header .icon{
@@ -82,7 +83,7 @@ body{
     content: '';
 }
 .menu_bottom_section{
-    width: 33%;
+    width: 33.3333333333%;
     height: 100%;
     text-align: center;
     float: left;
@@ -90,6 +91,14 @@ body{
     font: 0/0 a;         /* remove the gap between inline(-block) elements */
 
 }
+
+.home_icon{
+    padding: 15px!important;
+}
+.challenge_icon{
+    padding: 18px!important;
+}
+
 .menu_bottom_section:before{
     content: ' ';
     display: inline-block;
@@ -163,11 +172,18 @@ body{
 .main_title{
     font-size: 4em;
     text-align: center;
+    /*
     color: #8f8f8f;
+    */
+    color: #0f7cbf;
 }
 .sub_title{
     font-size: 3em;
-    color: #ce021b;
+    /*
+    color: #042440;
+    */
+    color: #0f7cbf;
+
     font-weight: normal;
     /*
     text-align: center;
@@ -177,7 +193,10 @@ body{
 
 .main_title span,
 .sub_title span{
-    color: #ce021b;
+    /*
+    color: #042440;
+    */
+    color: #0f7cbf;
     font-size: 80%;
 }
 
@@ -203,8 +222,9 @@ p{
 
 .main_button{
     border: none;
-    background-color: #ce021b;
-    color: #efefef;
+   /* background-color: #0f7cbf;*/
+    background-color: #042440;
+    color: #FFFFFF;
     text-align: center;
     width: 100%;
     font-size: 4em;
@@ -212,6 +232,7 @@ p{
     text-decoration: none;
     padding: 10px 0;
 
+    /*box-shadow: 0px 5px 5px #0b5d90;*/
 }
 
 .selection_container{
@@ -242,7 +263,7 @@ p{
 }
 
 .spec_list span{
-    color: #ce021b;
+    color: #042440;
     float: right;
 }
 
@@ -260,7 +281,7 @@ p{
 
 .message_warning_box{
     font-size: .5em;
-    color: #ce021b;
+    color: #042440;
     margin-bottom: 20px;
 }
 
@@ -270,10 +291,10 @@ p{
     display: block;
     font-size: 3em;
     text-align: center;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 .formlink:hover{
-    color: #ce021b;
+    color: #042440;
 }
 
 .formlink:last-child{
@@ -288,7 +309,7 @@ body{
 
 .content_box_red{
     margin-top: 20px;
-    background-color: #ce021b;
+    background-color: #042440;
     width:  calc(100% + 40px);
     margin-left: -20px;
     padding: 20px;
@@ -313,7 +334,7 @@ body{
 .content_box_red .main_button:hover,
 .content_box_red .main_button:active{
     background-color: #FFFFFF;
-    color: #ce021b;
+    color: #042440;
 }
 
 h1.main_title{
@@ -403,7 +424,7 @@ h2.sub_title{
     margin-bottom: 20px;
     font-size: 1em;
     border: none;
-    border-bottom: 1px solid #ce021b;
+    border-bottom: 1px solid #042440;
     background-color: white !important;
 }
 
@@ -447,7 +468,7 @@ h2.sub_title{
 }
 
 .basic_list li.active{
-    background-color: #ce021b;
+    background-color: #042440;
     color: #FFFFFF;
     font-weight: bold;
 
@@ -496,13 +517,15 @@ h2.sub_title{
 .main_button_cont{
 
     margin-top: 20px;
-    background-color: #ce021b;
+    background-color: #042440;
     color: #FFFFFF;
     position: relative;
     display: block;
     width: 100%;
     height: 60px;
     padding: 10px;
+
+    box-shadow: 0px 5px 5px #888888;
 }
 .main_button_cont:after{
     content: '';
@@ -524,6 +547,8 @@ h2.sub_title{
     float: left;
     height: 100%;
     width: 20%;
+
+    display: none;
 }
 
 .challenge{
@@ -577,7 +602,7 @@ h2.sub_title{
     display: block;
     width: 30%;
     height: 100%;
-    background-color: #ce021b;
+    background-color: #042440;
     color: #FFFFFF;
     text-align: center;
     line-height: 40px;
@@ -679,7 +704,7 @@ ul.challenge_list li span{
 }
 
 .deviders{
-    background-color: #ce021b;
+    background-color: #042440;
     color: #FFFFFF;
     width: 100%;
 
