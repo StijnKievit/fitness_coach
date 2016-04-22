@@ -41,14 +41,15 @@ class Application_Model_UserStats
 
         $user_challenge_table = new Application_Model_DbTable_UserChallenge();
 
-        var_dump($user_challenge_table->select()
+        /*var_dump($user_challenge_table->select()
             ->where("training_type = ?", $training)
             ->where("exercise_type = ?", $type)
-            ->where("completed = 0"));
+            ->where("completed = 0"));*/
 
         $valid_challenges = $user_challenge_table->fetchAll($user_challenge_table->select()
                                                                 ->where("training_type = ?", $training)
                                                                 ->where("exercise_type = ?", $type)
+                                                                ->where('user_id = ?', $this->user_id)
                                                                 ->where("completed = 0")
         );
 
@@ -99,7 +100,7 @@ class Application_Model_UserStats
 
         $challenge = $challenge_table->fetchRow($challenge_table->select()->where('id = ?', $challenge_id));
 
-        $user_records_check = $user_challenge_table->fetchAll($user_challenge_table->select()->where('uitdaging_id = ?', $challenge_id));
+        $user_records_check = $user_challenge_table->fetchAll($user_challenge_table->select()->where('uitdaging_id = ?', $challenge_id)->where('user_id = ?', $this->user_id) );
 
         if(count($user_records_check) >= 1)
         {
@@ -154,10 +155,22 @@ class Application_Model_UserStats
         $results = $db_model->fetchAll($db_model    ->select()
                                                     ->where('training_type = ?', $type)
                                                     ->where("completed = ?", $completed)
+                                                    ->where('user_id = ?', $this->user_id)
         );
 
         return count($results);
 
+    }
+
+    public function getAmountAllChallenges($completed){
+        $db_model = new Application_Model_DbTable_UserChallenge();
+        $results = $db_model->fetchAll($db_model    ->select()
+
+            ->where("completed = ?", $completed)
+            ->where('user_id = ?', $this->user_id)
+        );
+
+        return count($results);
     }
 
 

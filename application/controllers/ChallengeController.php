@@ -24,6 +24,9 @@ class ChallengeController extends Zend_Controller_Action
 
     public function statsAction(){
 
+        $this->view->user_stats_model = new Application_Model_UserStats();
+        $this->view->user_model = new Application_Model_User();
+
     }
 
     public function newchallengesAction(){

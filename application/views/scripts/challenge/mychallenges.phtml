@@ -79,10 +79,11 @@ $challenges = $model->getChallenges();
                     <div class="challenge_details">
                         <ul class="challenge_list">
                             <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
-                            <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                            <li>Doel: <span><?=$base_challenge['goal_description'] ?></span></li>
                             <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
                         </ul>
                     </div>
+
                 </div>
 
         <?php
@@ -148,10 +149,24 @@ $challenges = $model->getChallenges();
                 <div class="challenge_details">
                     <ul class="challenge_list">
                         <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
-                        <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                        <li>Doel: <span><?=$base_challenge['goal_description'] ?></span></li>
                         <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
                     </ul>
                 </div>
+                    <div class="social_box">
+                        <button class="fb_button social_btn">
+                            <div class="social_icon">
+                                <img src="<?=$this->baseUrl('img/icons/facebook_icon.png') ?>" alt="icon" class="social_icon">
+                            </div>
+                            <span>Delen</span>
+                        </button>
+                        <button class="twitter_button social_btn">
+                            <div class="social_icon">
+                                <img src="<?=$this->baseUrl('img/icons/twitter_icon.png') ?>" alt="icon" class="social_icon"/>
+                            </div>
+                            <span>Tweet</span>
+                        </button>
+                    </div>
             </div>
 
         <?php
@@ -227,7 +242,7 @@ $challenges = $model->getChallenges();
                             <div class="challenge_details">
                                 <ul class="challenge_list">
                                     <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
-                                    <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                                    <li>Doel: <span><?=$base_challenge['goal_description'] ?></span></li>
                                     <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
                                 </ul>
                             </div>
@@ -294,9 +309,23 @@ $challenges = $model->getChallenges();
                 <div class="challenge_details">
                     <ul class="challenge_list">
                         <li>Huidige progressie: <span><?=$challenge['cur_value'] ?></span></li>
-                        <li>Doel: <span><?=$challenge['goal'] ?></span></li>
+                        <li>Doel: <span><?=$base_challenge['goal_description'] ?></span></li>
                         <li>Punten: <span><?=$base_challenge['value'] ?></span></li>
                     </ul>
+                </div>
+                <div class="social_box">
+                    <button class="fb_button social_btn">
+                        <div class="social_icon">
+                            <img src="<?=$this->baseUrl('img/icons/facebook_icon.png') ?>" alt="icon" class="social_icon">
+                        </div>
+                        <span>Delen</span>
+                    </button>
+                    <button class="twitter_button social_btn">
+                        <div class="social_icon">
+                            <img src="<?=$this->baseUrl('img/icons/twitter_icon.png') ?>" alt="icon" class="social_icon"/>
+                        </div>
+                        <span>Tweet</span>
+                    </button>
                 </div>
             </div>
 
